@@ -1,10 +1,10 @@
 var assert = require('assert')
-var OverpassBounds = require('../src/OverpassBounds')
+var BoundingBox = require('../BoundingBox')
 var bounds1, bounds2, bounds3, bounds4, bounds5
 
-describe('OverpassBounds', function() {
+describe('BoundingBox', function() {
   it('create', function(done) {
-    bounds1 = new OverpassBounds({
+    bounds1 = new BoundingBox({
       minlat: 48,
       minlon: 16,
       maxlat: 49,
@@ -15,7 +15,7 @@ describe('OverpassBounds', function() {
       bounds1.bounds
     )
 
-    bounds2 = new OverpassBounds({
+    bounds2 = new BoundingBox({
       minlat: 45.1234,
       minlon: 16,
       maxlat: 47,
@@ -27,7 +27,7 @@ describe('OverpassBounds', function() {
     )
 
     // note: minlat/maxlat interchanged
-    bounds3 = new OverpassBounds({
+    bounds3 = new BoundingBox({
       minlat: 48.2,
       minlon: 16,
       maxlat: 47.2,
@@ -38,7 +38,7 @@ describe('OverpassBounds', function() {
       bounds3.bounds
     )
 
-    bounds4 = new OverpassBounds({
+    bounds4 = new BoundingBox({
       lat: 48.1,
       lon: 16.1
     })
@@ -47,7 +47,7 @@ describe('OverpassBounds', function() {
       bounds4.bounds
     )
 
-    bounds5 = new OverpassBounds({
+    bounds5 = new BoundingBox({
       lat: 48.2,
       lon: 16.2
     })
@@ -59,8 +59,8 @@ describe('OverpassBounds', function() {
     done()
   })
 
-  it('create from OverpassBounds', function(done) {
-    var b = new OverpassBounds(bounds1)
+  it('create from BoundingBox', function(done) {
+    var b = new BoundingBox(bounds1)
     assert.deepEqual(
       {"minlat":48,"minlon":16,"maxlat":49,"maxlon":17},
       b.bounds
@@ -70,7 +70,7 @@ describe('OverpassBounds', function() {
   })
 
   it('create from Overpass API response node', function(done) {
-    var b = new OverpassBounds({ type: 'node', id: 3037893168, lat: 48.1984633, lon: 16.3384871 })
+    var b = new BoundingBox({ type: 'node', id: 3037893168, lat: 48.1984633, lon: 16.3384871 })
     assert.deepEqual(
       {"minlat":48.1984633,"minlon":16.3384871,"maxlat":48.1984633,"maxlon":16.3384871},
       b.bounds

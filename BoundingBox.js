@@ -1,5 +1,5 @@
-function OverpassBounds(bounds) {
-  if(bounds instanceof OverpassBounds) {
+function BoundingBox(bounds) {
+  if(bounds instanceof BoundingBox) {
     this.bounds = {}
     for(var k in bounds.bounds)
       this.bounds[k] = bounds.bounds[k]
@@ -43,8 +43,8 @@ function OverpassBounds(bounds) {
       delete(this.bounds[k])
 }
 
-OverpassBounds.prototype.intersects = function(other) {
-  other = new OverpassBounds(other);
+BoundingBox.prototype.intersects = function(other) {
+  other = new BoundingBox(other);
 
   if(other.bounds.maxlat < this.bounds.minlat)
     return false;
@@ -61,8 +61,8 @@ OverpassBounds.prototype.intersects = function(other) {
   return true;
 }
 
-OverpassBounds.prototype.toTile = function() {
-  return new OverpassBounds({
+BoundingBox.prototype.toTile = function() {
+  return new BoundingBox({
     minlat: Math.floor(this.bounds.minlat * 10) / 10,
     minlon: Math.floor(this.bounds.minlon * 10) / 10,
     maxlat: Math.ceil(this.bounds.maxlat * 10) / 10,
@@ -70,21 +70,21 @@ OverpassBounds.prototype.toTile = function() {
   })
 }
 
-OverpassBounds.prototype.toBBoxString = function() {
+BoundingBox.prototype.toBBoxString = function() {
   return this.bounds.minlon + ',' +
          this.bounds.minlat + ',' +
          this.bounds.maxlon + ',' +
          this.bounds.maxlat
 }
 
-OverpassBounds.prototype.diagonalLength = function() {
+BoundingBox.prototype.diagonalLength = function() {
   var dlat = this.bounds.maxlat - this.bounds.minlat
   var dlon = this.bounds.maxlon - this.bounds.minlon
 
   return d = Math.sqrt(dlat * dlat + dlon * dlon)
 }
 
-OverpassBounds.prototype.getCenter = function() {
+BoundingBox.prototype.getCenter = function() {
   var dlat = this.bounds.maxlat - this.bounds.minlat
   var dlon = this.bounds.maxlon - this.bounds.minlon
 
@@ -95,4 +95,4 @@ OverpassBounds.prototype.getCenter = function() {
 }
 
 if(typeof module != 'undefined' && module.exports)
-  module.exports = OverpassBounds
+  module.exports = BoundingBox
