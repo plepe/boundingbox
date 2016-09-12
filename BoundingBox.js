@@ -7,6 +7,19 @@ function BoundingBox(bounds) {
     return
   }
 
+  // Leaflet.latLngBounds detected!
+  if(typeof bounds.getSouthWest == 'function') {
+    var sw = bounds.getSouthWest()
+    var ne = bounds.getNorthEast()
+
+    bounds = {
+      minlat: sw.lat,
+      minlon: sw.lng,
+      maxlat: ne.lat,
+      maxlon: ne.lng
+    }
+  }
+
   if('bounds' in bounds)
     bounds = bounds.bounds
 
@@ -24,6 +37,13 @@ function BoundingBox(bounds) {
     this.bounds.minlon = this.bounds.lon
     this.bounds.maxlon = this.bounds.lon
     delete(this.bounds.lon)
+  }
+
+  // e.g. L.latLng object
+  if(this.bounds.lng) {
+    this.bounds.minlon = this.bounds.lng
+    this.bounds.maxlon = this.bounds.lng
+    delete(this.bounds.lng)
   }
 
   if(this.bounds.maxlat < this.bounds.minlat) {

@@ -79,6 +79,36 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('create from Leaflet L.latLngBounds', function(done) {
+    if(typeof L == 'undefined')
+      return done()
+
+    var leaflet_bounds = L.latLngBounds(L.latLng(40.712, -74.227), L.latLng(40.774, -74.125))
+    var b = new BoundingBox(leaflet_bounds)
+
+    assert.deepEqual(
+      {"minlat":40.712,"minlon":-74.227,"maxlat":40.774,"maxlon":-74.125},
+      b.bounds
+    )
+
+    done()
+  })
+
+  it('create from Leaflet L.latLng', function(done) {
+    if(typeof L == 'undefined')
+      return done()
+
+    var leaflet_coord = L.latLng(40.712, -74.227)
+    var b = new BoundingBox(leaflet_coord)
+
+    assert.deepEqual(
+      {"minlat":40.712,"minlon":-74.227,"maxlat":40.712,"maxlon":-74.227},
+      b.bounds
+    )
+
+    done()
+  })
+
   it('intersects()', function(done) {
     assert.equal(false, bounds1.intersects(bounds2))
     assert.equal(true, bounds1.intersects(bounds3))
