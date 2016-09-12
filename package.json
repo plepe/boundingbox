@@ -1,5 +1,35 @@
 {
-    "dependencies": {
-        "mocha": "*"
-    }
+  "dependencies": {
+    "mocha": "*"
+  },
+  "name": "boundingbox",
+  "description": "Implements bounding boxes with usual functions like intersects. Can convert from/to Leaflet bounds and GeoJSON.",
+  "version": "0.0.1",
+  "main": "BoundingBox.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plepe/boundingbox.git"
+  },
+  "keywords": [
+    "bbox",
+    "bounding-box",
+    "leaflet",
+    "GeoJSON",
+    "bounds"
+  ],
+  "author": "Stephan Bösch-Plepelits",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/plepe/boundingbox/issues"
+  },
+  "homepage": "https://github.com/plepe/boundingbox#readme"
 }
