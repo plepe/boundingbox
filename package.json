@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "mocha": "*",
-    "browserify": "*"
   },
   "name": "boundingbox",
   "description": "Implements bounding boxes with usual functions like intersects. Can convert from/to Leaflet bounds and GeoJSON.",
@@ -11,10 +9,11 @@
     "test": "test"
   },
   "devDependencies": {
-    "mocha": "^3.0.2"
+    "mocha": "*",
+    "browserify": "*"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "./run_tests"
   },
   "repository": {
     "type": "git",
