@@ -79,10 +79,8 @@ describe('BoundingBox', function() {
     done()
   })
 
+  if(typeof L != 'undefined')
   it('create from Leaflet L.latLngBounds', function(done) {
-    if(typeof L == 'undefined')
-      return done()
-
     var leaflet_bounds = L.latLngBounds(L.latLng(40.712, -74.227), L.latLng(40.774, -74.125))
     var b = new BoundingBox(leaflet_bounds)
 
@@ -94,10 +92,8 @@ describe('BoundingBox', function() {
     done()
   })
 
+  if(typeof L != 'undefined')
   it('create from Leaflet L.latLng', function(done) {
-    if(typeof L == 'undefined')
-      return done()
-
     var leaflet_coord = L.latLng(40.712, -74.227)
     var b = new BoundingBox(leaflet_coord)
 
@@ -188,9 +184,8 @@ describe('BoundingBox', function() {
     done()
   })
 
+  if(typeof L != 'undefined')
   it('toLeaflet()', function(done) {
-    if(typeof L == 'undefined')
-      return done()
 
     var leaflet_bounds = L.latLngBounds(L.latLng(48, 16), L.latLng(49, 17))
 
