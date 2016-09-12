@@ -54,3 +54,8 @@ console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }
 (This function is still work in progress)
 
 Fit the bounding box into tiles
+
+# Tests
+To run tests with nodejs, just call `./run_tests`
+
+To run tests in a browser, call `./run_tests` first, which will create `all_tests.js` and then open the file `test.html` in your favorite browser.
