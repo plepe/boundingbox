@@ -114,5 +114,12 @@ BoundingBox.prototype.getCenter = function() {
   }
 }
 
+BoundingBox.prototype.toLeaflet = function() {
+  return L.latLngBounds(
+    L.latLng(this.bounds.minlat, this.bounds.minlon),
+    L.latLng(this.bounds.maxlat, this.bounds.maxlon)
+  )
+}
+
 if(typeof module != 'undefined' && module.exports)
   module.exports = BoundingBox

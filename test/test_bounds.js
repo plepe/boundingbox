@@ -188,4 +188,15 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('toLeaflet()', function(done) {
+    if(typeof L == 'undefined')
+      return done()
+
+    var leaflet_bounds = L.latLngBounds(L.latLng(48, 16), L.latLng(49, 17))
+
+    assert.deepEqual(leaflet_bounds, bounds1.toLeaflet())
+
+    done()
+  })
+
 })
