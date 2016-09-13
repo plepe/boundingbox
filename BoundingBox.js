@@ -46,18 +46,6 @@ function BoundingBox(bounds) {
     delete(this.bounds.lng)
   }
 
-  if(this.bounds.maxlat < this.bounds.minlat) {
-    var h = this.bounds.minlat
-    this.bounds.minlat = this.bounds.maxlat
-    this.bounds.maxlat = h
-  }
-
-  if(this.bounds.maxlon < this.bounds.minlon) {
-    var h = this.bounds.minlon
-    this.bounds.minlon = this.bounds.maxlon
-    this.bounds.maxlon = h
-  }
-
   for(var k in this.bounds)
     if(['minlon', 'minlat', 'maxlon', 'maxlat'].indexOf(k) == -1)
       delete(this.bounds[k])

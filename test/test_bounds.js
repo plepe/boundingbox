@@ -28,9 +28,9 @@ describe('BoundingBox', function() {
 
     // note: minlat/maxlat interchanged
     bounds3 = new BoundingBox({
-      minlat: 48.2,
+      minlat: 47.2,
       minlon: 16,
-      maxlat: 47.2,
+      maxlat: 48.2,
       maxlon: 17
     })
     assert.deepEqual(
