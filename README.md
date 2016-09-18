@@ -1,6 +1,18 @@
 # bounding-box
 Implements bounding boxes with usual functions like intersects. Can convert from/to Leaflet bounds and GeoJSON.
 
+# Usage
+## Browser
+Include dist-file via script src:
+```html
+<script src='node_module/boundingbox/dist/boundingbox.js'>
+```
+
+## NodeJS
+```js
+var BoundingBox = require('boundingbox')
+```
+
 # API
 ## Constructor: new BoundingBox(data)
 Creates a bounding box object.

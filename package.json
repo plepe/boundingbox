@@ -14,7 +14,9 @@
     "leaflet": "*"
   },
   "scripts": {
-    "test": "./run_tests"
+    "test": "./run_tests",
+    "build": "browserify BoundingBox.js -o dist/boundingbox.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

@@ -111,3 +111,5 @@ BoundingBox.prototype.toLeaflet = function() {
 
 if(typeof module != 'undefined' && module.exports)
   module.exports = BoundingBox
+if(typeof window != 'undefined')
+  window.BoundingBox = BoundingBox
