@@ -1,6 +1,5 @@
 {
-  "dependencies": {
-  },
+  "dependencies": {},
   "name": "boundingbox",
   "description": "Implements bounding boxes with usual functions like intersects. Can convert from/to Leaflet bounds and GeoJSON.",
   "version": "0.0.3",
@@ -9,13 +8,19 @@
     "test": "test"
   },
   "devDependencies": {
-    "mocha": "*",
     "browserify": "*",
-    "leaflet": "*"
+    "eslint": "*",
+    "eslint-config-standard": "^6.1.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.1",
+    "leaflet": "*",
+    "mocha": "*"
   },
   "scripts": {
     "test": "./run_tests",
-    "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js"
+    "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js",
+    "prepublish": "npm run build; npm run lint",
+    "lint": "eslint BoundingBox.js"
   },
   "repository": {
     "type": "git",
