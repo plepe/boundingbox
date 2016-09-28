@@ -15,8 +15,7 @@
   },
   "scripts": {
     "test": "./run_tests",
-    "build": "browserify BoundingBox.js -o dist/boundingbox.js",
-    "prepublish": "npm run build"
+    "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js"
   },
   "repository": {
     "type": "git",
