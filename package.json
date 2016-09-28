@@ -2,7 +2,7 @@
   "dependencies": {},
   "name": "boundingbox",
   "description": "Implements bounding boxes with usual functions like intersects. Can convert from/to Leaflet bounds and GeoJSON.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "BoundingBox.js",
   "directories": {
     "test": "test"
