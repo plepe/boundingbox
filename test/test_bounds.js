@@ -184,6 +184,15 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('toGeoJSON()', function(done) {
+
+    var expected = {"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[48,16],[49,16],[49,17],[48,49],[48,16]]]}}
+
+    assert.deepEqual(expected, bounds1.toGeoJSON())
+
+    done()
+  })
+
   if(typeof L != 'undefined')
   it('toLeaflet()', function(done) {
 

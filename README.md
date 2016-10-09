@@ -64,6 +64,9 @@ var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxl
 console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }
 ```
 
+## Method toGeoJSON()
+Returns the bounding box as GeoJSON feature.
+
 ## Method toLeaflet()
 Returns the bounding box as L.latLngBounds object
 

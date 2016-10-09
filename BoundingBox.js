@@ -120,6 +120,23 @@ BoundingBox.prototype.getCenter = function () {
   }
 }
 
+BoundingBox.prototype.toGeoJSON = function () {
+  return {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      'type': 'Polygon',
+      'coordinates': [[
+        [ this.bounds.minlat, this.bounds.minlon ],
+        [ this.bounds.maxlat, this.bounds.minlon ],
+        [ this.bounds.maxlat, this.bounds.maxlon ],
+        [ this.bounds.minlat, this.bounds.maxlat ],
+        [ this.bounds.minlat, this.bounds.minlon ]
+      ]]
+    }
+  }
+}
+
 BoundingBox.prototype.toLeaflet = function () {
   return L.latLngBounds(
     L.latLng(this.bounds.minlat, this.bounds.minlon),
