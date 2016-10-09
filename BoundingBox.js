@@ -130,7 +130,7 @@ BoundingBox.prototype.toGeoJSON = function () {
         [ this.bounds.minlat, this.bounds.minlon ],
         [ this.bounds.maxlat, this.bounds.minlon ],
         [ this.bounds.maxlat, this.bounds.maxlon ],
-        [ this.bounds.minlat, this.bounds.maxlat ],
+        [ this.bounds.minlat, this.bounds.maxlon ],
         [ this.bounds.minlat, this.bounds.minlon ]
       ]]
     }
