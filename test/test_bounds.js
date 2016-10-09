@@ -79,6 +79,18 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('create from GeoJSON', function(done) {
+    var expected = {"minlat":48,"minlon":16,"maxlat":49,"maxlon":17}
+    var input = {"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[48,16],[49,16],[48.5,16.5],[49,17],[48,17],[48,16]]]}}
+
+    assert.deepEqual(
+      expected,
+      new BoundingBox(input).bounds
+    )
+
+    done()
+  })
+
   if(typeof L != 'undefined')
   it('create from Leaflet L.latLngBounds', function(done) {
     var leaflet_bounds = L.latLngBounds(L.latLng(40.712, -74.227), L.latLng(40.774, -74.125))

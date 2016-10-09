@@ -23,6 +23,7 @@ Data can be one of the following:
 * A BoundingBox object to create a copy
 * A L.latLngBounds object (using Leaflet)
 * A L.latLng object (using Leaflet)
+* A GeoJSON feature
 
 Example:
 ```js

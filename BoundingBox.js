@@ -1,5 +1,7 @@
 'use strict'
 
+var GeoJSONBounds = require('geojson-bounds')
+
 // define L, if Leaflet is not available (not not confuse Linter)
 if (typeof L === 'undefined') {
   var L
@@ -27,6 +29,18 @@ function BoundingBox (bounds) {
       minlon: sw.lng,
       maxlat: ne.lat,
       maxlon: ne.lng
+    }
+  }
+
+  // GeoJSON detected
+  if (bounds.type === 'Feature') {
+    var b = GeoJSONBounds.extent(bounds)
+
+    bounds = {
+      minlat: b[0],
+      minlon: b[1],
+      maxlat: b[2],
+      maxlon: b[3]
     }
   }
 
