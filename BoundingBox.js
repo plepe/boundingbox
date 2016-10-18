@@ -141,11 +141,11 @@ BoundingBox.prototype.toGeoJSON = function () {
     geometry: {
       'type': 'Polygon',
       'coordinates': [[
-        [ this.bounds.minlat, this.bounds.minlon ],
-        [ this.bounds.maxlat, this.bounds.minlon ],
-        [ this.bounds.maxlat, this.bounds.maxlon ],
-        [ this.bounds.minlat, this.bounds.maxlon ],
-        [ this.bounds.minlat, this.bounds.minlon ]
+        [ this.bounds.minlon, this.bounds.minlat ],
+        [ this.bounds.maxlon, this.bounds.minlat ],
+        [ this.bounds.maxlon, this.bounds.maxlat ],
+        [ this.bounds.minlon, this.bounds.maxlat ],
+        [ this.bounds.minlon, this.bounds.minlat ]
       ]]
     }
   }
