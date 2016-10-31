@@ -134,6 +134,26 @@ BoundingBox.prototype.getCenter = function () {
   }
 }
 
+BoundingBox.prototype.extend = function (other) {
+  other = new BoundingBox(other)
+
+  if (other.bounds.minlon < this.bounds.minlon) {
+    this.bounds.minlon = other.bounds.minlon
+  }
+
+  if (other.bounds.minlat < this.bounds.minlat) {
+    this.bounds.minlat = other.bounds.minlat
+  }
+
+  if (other.bounds.maxlon > this.bounds.maxlon) {
+    this.bounds.maxlon = other.bounds.maxlon
+  }
+
+  if (other.bounds.maxlat > this.bounds.maxlat) {
+    this.bounds.maxlat = other.bounds.maxlat
+  }
+}
+
 BoundingBox.prototype.toGeoJSON = function () {
   return {
     type: 'Feature',
