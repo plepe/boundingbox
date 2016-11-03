@@ -2,10 +2,7 @@
 
 var GeoJSONBounds = require('geojson-bounds')
 
-// define L, if Leaflet is not available (not not confuse Linter)
-if (typeof L === 'undefined') {
-  var L
-}
+/* global L:false */
 
 function BoundingBox (bounds) {
   var k
