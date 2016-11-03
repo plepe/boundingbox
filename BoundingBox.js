@@ -131,6 +131,22 @@ BoundingBox.prototype.getCenter = function () {
   }
 }
 
+BoundingBox.prototype.getNorth = function () {
+  return this.bounds.maxlat
+}
+
+BoundingBox.prototype.getSouth = function () {
+  return this.bounds.minlat
+}
+
+BoundingBox.prototype.getEast = function () {
+  return this.bounds.maxlon
+}
+
+BoundingBox.prototype.getWest = function () {
+  return this.bounds.minlon
+}
+
 BoundingBox.prototype.extend = function (other) {
   other = new BoundingBox(other)
 

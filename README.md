@@ -65,6 +65,15 @@ var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxl
 console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }
 ```
 
+## Methods getNorth(), getSouth(), getEast(), getWest()
+Returns the latitute/longitude of the border as float.
+
+
+```js
+var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+console.log(bbox.getNorth()) // 49.012
+```
+
 ## Method extend(other)
 Extend the bounding box by the bounding box other.
 

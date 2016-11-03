@@ -196,6 +196,34 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('getNorth()', function(done) {
+    assert.equal(49, bounds1.getNorth())
+    assert.equal(48.1, bounds4.getNorth())
+
+    done()
+  })
+
+  it('getSouth()', function(done) {
+    assert.equal(48, bounds1.getSouth())
+    assert.equal(48.1, bounds4.getSouth())
+
+    done()
+  })
+
+  it('getEast()', function(done) {
+    assert.equal(17, bounds1.getEast())
+    assert.equal(16.1, bounds4.getEast())
+
+    done()
+  })
+
+  it('getWest()', function(done) {
+    assert.equal(16, bounds1.getWest())
+    assert.equal(16.1, bounds4.getWest())
+
+    done()
+  })
+
   it('extend()', function (done) {
     var test = new BoundingBox(bounds1)
     test.extend(bounds2)
