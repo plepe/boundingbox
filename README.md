@@ -41,12 +41,20 @@ var bbox2 = new BoundingBox({ lat: 48.5, lon: 16.5 })
 console.log(bbox.intersects(bbox2)) // true
 ```
 
-## Method toBBoxString()
+## Method toLonLatString(), toBBoxString()
 Returns a string with the bounding box coordinates in a 'sw_lon,sw_lat,ne_lon,ne_lat' format. Useful for sending requests to web services that return geo data.
 
 ```js
 var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
-console.log(bbox.toBBoxString()) // '16.23,48.123,16.367,49.012'
+console.log(bbox.toLonLatString()) // '16.23,48.123,16.367,49.012'
+```
+
+## Method toLatLonString()
+Returns a string with the bounding box coordinates in a 'sw_lat,sw_lon,ne_lat,ne_lon' format. Useful e.g. for Overpass API requests.
+
+```js
+var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+console.log(bbox.toLatLonString()) // '48.123,16.23,49.012,16.367'
 ```
 
 ## Method diagonalLength()

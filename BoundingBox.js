@@ -107,11 +107,20 @@ BoundingBox.prototype.toTile = function () {
   })
 }
 
-BoundingBox.prototype.toBBoxString = function () {
+BoundingBox.prototype.toLonLatString = function () {
   return this.bounds.minlon + ',' +
          this.bounds.minlat + ',' +
          this.bounds.maxlon + ',' +
          this.bounds.maxlat
+}
+
+BoundingBox.prototype.toBBoxString = BoundingBox.prototype.toLonLatString
+
+BoundingBox.prototype.toLatLonString = function () {
+  return this.bounds.minlat + ',' +
+         this.bounds.minlon + ',' +
+         this.bounds.maxlat + ',' +
+         this.bounds.maxlon
 }
 
 BoundingBox.prototype.diagonalLength = function () {

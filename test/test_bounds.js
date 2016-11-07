@@ -154,6 +154,38 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('toLonLatString()', function(done) {
+    var b = bounds2.toLonLatString()
+    assert.deepEqual(
+      '16,45.1234,17,47',
+      b
+    )
+
+    var b = bounds4.toLonLatString()
+    assert.deepEqual(
+      '16.1,48.1,16.1,48.1',
+      b
+    )
+
+    done()
+  })
+
+  it('toLatLonString()', function(done) {
+    var b = bounds2.toLatLonString()
+    assert.deepEqual(
+      '45.1234,16,47,17',
+      b
+    )
+
+    var b = bounds4.toLatLonString()
+    assert.deepEqual(
+      '48.1,16.1,48.1,16.1',
+      b
+    )
+
+    done()
+  })
+
   it('diagonalLength()', function(done) {
     assert.equal(
       0,
