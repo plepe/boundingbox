@@ -12,7 +12,7 @@ describe('BoundingBox', function() {
     })
     assert.deepEqual(
       {"minlat":48,"minlon":16,"maxlat":49,"maxlon":17},
-      bounds1.bounds
+      bounds1
     )
 
     bounds2 = new BoundingBox({
@@ -23,7 +23,7 @@ describe('BoundingBox', function() {
     })
     assert.deepEqual(
       {"minlat":45.1234,"minlon":16,"maxlat":47,"maxlon":17},
-      bounds2.bounds
+      bounds2
     )
 
     // note: minlat/maxlat interchanged
@@ -35,7 +35,7 @@ describe('BoundingBox', function() {
     })
     assert.deepEqual(
       {"minlat":47.2,"minlon":16,"maxlat":48.2,"maxlon":17},
-      bounds3.bounds
+      bounds3
     )
 
     bounds4 = new BoundingBox({
@@ -44,7 +44,7 @@ describe('BoundingBox', function() {
     })
     assert.deepEqual(
       {"minlat":48.1,"minlon":16.1,"maxlat":48.1,"maxlon":16.1},
-      bounds4.bounds
+      bounds4
     )
 
     bounds5 = new BoundingBox({
@@ -53,7 +53,7 @@ describe('BoundingBox', function() {
     })
     assert.deepEqual(
       {"minlat":48.2,"minlon":16.2,"maxlat":48.2,"maxlon":16.2},
-      bounds5.bounds
+      bounds5
     )
 
     done()
@@ -63,7 +63,7 @@ describe('BoundingBox', function() {
     var b = new BoundingBox(bounds1)
     assert.deepEqual(
       {"minlat":48,"minlon":16,"maxlat":49,"maxlon":17},
-      b.bounds
+      b
     )
 
     done()
@@ -73,7 +73,7 @@ describe('BoundingBox', function() {
     var b = new BoundingBox({ type: 'node', id: 3037893168, lat: 48.1984633, lon: 16.3384871 })
     assert.deepEqual(
       {"minlat":48.1984633,"minlon":16.3384871,"maxlat":48.1984633,"maxlon":16.3384871},
-      b.bounds
+      b
     )
 
     done()
@@ -85,7 +85,7 @@ describe('BoundingBox', function() {
 
     assert.deepEqual(
       expected,
-      new BoundingBox(input).bounds
+      new BoundingBox(input)
     )
 
     done()
@@ -98,7 +98,7 @@ describe('BoundingBox', function() {
 
     assert.deepEqual(
       {"minlat":40.712,"minlon":-74.227,"maxlat":40.774,"maxlon":-74.125},
-      b.bounds
+      b
     )
 
     done()
@@ -111,7 +111,7 @@ describe('BoundingBox', function() {
 
     assert.deepEqual(
       {"minlat":40.712,"minlon":-74.227,"maxlat":40.712,"maxlon":-74.227},
-      b.bounds
+      b
     )
 
     done()
@@ -132,7 +132,7 @@ describe('BoundingBox', function() {
     var b = bounds2.toTile()
     assert.deepEqual(
       {"minlat":45.1,"minlon":16,"maxlat":47,"maxlon":17},
-      b.bounds
+      b
     )
 
     done()
@@ -262,7 +262,7 @@ describe('BoundingBox', function() {
 
     assert.deepEqual(
       {"minlat":45.1234,"minlon":16,"maxlat":49,"maxlon":17},
-      test.bounds
+      test
     )
 
     done()

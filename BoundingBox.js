@@ -7,15 +7,6 @@ var GeoJSONBounds = require('geojson-bounds')
 function BoundingBox (bounds) {
   var k
 
-  if (bounds instanceof BoundingBox) {
-    this.bounds = {}
-    for (k in bounds.bounds) {
-      this.bounds[k] = bounds.bounds[k]
-    }
-
-    return
-  }
-
   // Leaflet.latLngBounds detected!
   if (typeof bounds.getSouthWest === 'function') {
     var sw = bounds.getSouthWest()
@@ -45,33 +36,27 @@ function BoundingBox (bounds) {
     bounds = bounds.bounds
   }
 
-  this.bounds = {}
-  for (k in bounds) {
-    this.bounds[k] = bounds[k]
+  if (bounds.lat) {
+    this.minlat = bounds.lat
+    this.maxlat = bounds.lat
   }
 
-  if (this.bounds.lat) {
-    this.bounds.minlat = this.bounds.lat
-    this.bounds.maxlat = this.bounds.lat
-    delete this.bounds.lat
-  }
-
-  if (this.bounds.lon) {
-    this.bounds.minlon = this.bounds.lon
-    this.bounds.maxlon = this.bounds.lon
-    delete this.bounds.lon
+  if (bounds.lon) {
+    this.minlon = bounds.lon
+    this.maxlon = bounds.lon
   }
 
   // e.g. L.latLng object
-  if (this.bounds.lng) {
-    this.bounds.minlon = this.bounds.lng
-    this.bounds.maxlon = this.bounds.lng
-    delete this.bounds.lng
+  if (bounds.lng) {
+    this.minlon = bounds.lng
+    this.maxlon = bounds.lng
   }
 
-  for (k in this.bounds) {
-    if (['minlon', 'minlat', 'maxlon', 'maxlat'].indexOf(k) === -1) {
-      delete this.bounds[k]
+  var props = ['minlon', 'minlat', 'maxlon', 'maxlat']
+  for (var i = 0; i < props.length; i++) {
+    var k = props[i]
+    if (k in bounds) {
+      this[k] = bounds[k]
     }
   }
 }
@@ -79,19 +64,19 @@ function BoundingBox (bounds) {
 BoundingBox.prototype.intersects = function (other) {
   other = new BoundingBox(other)
 
-  if (other.bounds.maxlat < this.bounds.minlat) {
+  if (other.maxlat < this.minlat) {
     return false
   }
 
-  if (other.bounds.minlat > this.bounds.maxlat) {
+  if (other.minlat > this.maxlat) {
     return false
   }
 
-  if (other.bounds.maxlon < this.bounds.minlon) {
+  if (other.maxlon < this.minlon) {
     return false
   }
 
-  if (other.bounds.minlon > this.bounds.maxlon) {
+  if (other.minlon > this.maxlon) {
     return false
   }
 
@@ -100,79 +85,79 @@ BoundingBox.prototype.intersects = function (other) {
 
 BoundingBox.prototype.toTile = function () {
   return new BoundingBox({
-    minlat: Math.floor(this.bounds.minlat * 10) / 10,
-    minlon: Math.floor(this.bounds.minlon * 10) / 10,
-    maxlat: Math.ceil(this.bounds.maxlat * 10) / 10,
-    maxlon: Math.ceil(this.bounds.maxlon * 10) / 10
+    minlat: Math.floor(this.minlat * 10) / 10,
+    minlon: Math.floor(this.minlon * 10) / 10,
+    maxlat: Math.ceil(this.maxlat * 10) / 10,
+    maxlon: Math.ceil(this.maxlon * 10) / 10
   })
 }
 
 BoundingBox.prototype.toLonLatString = function () {
-  return this.bounds.minlon + ',' +
-         this.bounds.minlat + ',' +
-         this.bounds.maxlon + ',' +
-         this.bounds.maxlat
+  return this.minlon + ',' +
+         this.minlat + ',' +
+         this.maxlon + ',' +
+         this.maxlat
 }
 
 BoundingBox.prototype.toBBoxString = BoundingBox.prototype.toLonLatString
 
 BoundingBox.prototype.toLatLonString = function () {
-  return this.bounds.minlat + ',' +
-         this.bounds.minlon + ',' +
-         this.bounds.maxlat + ',' +
-         this.bounds.maxlon
+  return this.minlat + ',' +
+         this.minlon + ',' +
+         this.maxlat + ',' +
+         this.maxlon
 }
 
 BoundingBox.prototype.diagonalLength = function () {
-  var dlat = this.bounds.maxlat - this.bounds.minlat
-  var dlon = this.bounds.maxlon - this.bounds.minlon
+  var dlat = this.maxlat - this.minlat
+  var dlon = this.maxlon - this.minlon
 
   return Math.sqrt(dlat * dlat + dlon * dlon)
 }
 
 BoundingBox.prototype.getCenter = function () {
-  var dlat = this.bounds.maxlat - this.bounds.minlat
-  var dlon = this.bounds.maxlon - this.bounds.minlon
+  var dlat = this.maxlat - this.minlat
+  var dlon = this.maxlon - this.minlon
 
   return {
-    lat: this.bounds.minlat + dlat / 2,
-    lon: this.bounds.minlon + dlon / 2
+    lat: this.minlat + dlat / 2,
+    lon: this.minlon + dlon / 2
   }
 }
 
 BoundingBox.prototype.getNorth = function () {
-  return this.bounds.maxlat
+  return this.maxlat
 }
 
 BoundingBox.prototype.getSouth = function () {
-  return this.bounds.minlat
+  return this.minlat
 }
 
 BoundingBox.prototype.getEast = function () {
-  return this.bounds.maxlon
+  return this.maxlon
 }
 
 BoundingBox.prototype.getWest = function () {
-  return this.bounds.minlon
+  return this.minlon
 }
 
 BoundingBox.prototype.extend = function (other) {
   other = new BoundingBox(other)
 
-  if (other.bounds.minlon < this.bounds.minlon) {
-    this.bounds.minlon = other.bounds.minlon
+  if (other.minlon < this.minlon) {
+    this.minlon = other.minlon
   }
 
-  if (other.bounds.minlat < this.bounds.minlat) {
-    this.bounds.minlat = other.bounds.minlat
+  if (other.minlat < this.minlat) {
+    this.minlat = other.minlat
   }
 
-  if (other.bounds.maxlon > this.bounds.maxlon) {
-    this.bounds.maxlon = other.bounds.maxlon
+  if (other.maxlon > this.maxlon) {
+    this.maxlon = other.maxlon
   }
 
-  if (other.bounds.maxlat > this.bounds.maxlat) {
-    this.bounds.maxlat = other.bounds.maxlat
+  if (other.maxlat > this.maxlat) {
+    this.maxlat = other.maxlat
   }
 }
 
@@ -183,11 +168,11 @@ BoundingBox.prototype.toGeoJSON = function () {
     geometry: {
       'type': 'Polygon',
       'coordinates': [[
-        [ this.bounds.minlon, this.bounds.minlat ],
-        [ this.bounds.maxlon, this.bounds.minlat ],
-        [ this.bounds.maxlon, this.bounds.maxlat ],
-        [ this.bounds.minlon, this.bounds.maxlat ],
-        [ this.bounds.minlon, this.bounds.minlat ]
+        [ this.minlon, this.minlat ],
+        [ this.maxlon, this.minlat ],
+        [ this.maxlon, this.maxlat ],
+        [ this.minlon, this.maxlat ],
+        [ this.minlon, this.minlat ]
       ]]
     }
   }
@@ -195,8 +180,8 @@ BoundingBox.prototype.toGeoJSON = function () {
 
 BoundingBox.prototype.toLeaflet = function () {
   return L.latLngBounds(
-    L.latLng(this.bounds.minlat, this.bounds.minlon),
-    L.latLng(this.bounds.maxlat, this.bounds.maxlon)
+    L.latLng(this.minlat, this.minlon),
+    L.latLng(this.maxlat, this.maxlon)
   )
 }
 
