@@ -19,7 +19,7 @@
     "mocha": "*"
   },
   "scripts": {
-    "test": "./run_tests",
+    "test": "mocha --bail && browserify test/test_*.js --debug -o all_tests.js",
     "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js",
     "prepublish": "npm run build; npm run lint",
     "lint": "eslint BoundingBox.js"
