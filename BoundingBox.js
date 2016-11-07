@@ -54,7 +54,7 @@ function BoundingBox (bounds) {
 
   var props = ['minlon', 'minlat', 'maxlon', 'maxlat']
   for (var i = 0; i < props.length; i++) {
-    var k = props[i]
+    k = props[i]
     if (k in bounds) {
       this[k] = bounds[k]
     }
