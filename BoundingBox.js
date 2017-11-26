@@ -7,6 +7,14 @@ var GeoJSONBounds = require('geojson-bounds')
 function BoundingBox (bounds) {
   var k
 
+  if (bounds === null || typeof bounds === 'undefined') {
+    this.minlat = -180
+    this.minlon = -90
+    this.maxlat = +180
+    this.maxlon = +90
+    return
+  }
+
   // Leaflet.latLngBounds detected!
   if (typeof bounds.getSouthWest === 'function') {
     var sw = bounds.getSouthWest()

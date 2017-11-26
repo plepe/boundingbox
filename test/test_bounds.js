@@ -117,6 +117,17 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('create from empty value', function(done) {
+    var b = new BoundingBox()
+
+    assert.deepEqual(
+      {"minlat":-180,"minlon":-90,"maxlat":180,"maxlon":90},
+      b
+    )
+
+    done()
+  })
+
   it('intersects()', function(done) {
     assert.equal(false, bounds1.intersects(bounds2))
     assert.equal(true, bounds1.intersects(bounds3))
