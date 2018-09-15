@@ -54,6 +54,13 @@ function BoundingBox (bounds) {
     this.maxlon = bounds.lon
   }
 
+  if (Array.isArray(bounds)) {
+    this.minlat = bounds[0]
+    this.maxlat = bounds[0]
+    this.minlon = bounds[1]
+    this.maxlon = bounds[1]
+  }
+
   // e.g. L.latLng object
   if (bounds.lng) {
     this.minlon = bounds.lng
