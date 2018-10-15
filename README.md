@@ -37,7 +37,7 @@ Checks whether the bounding box 'bounds' intersects (shares any portion of space
 Example:
 ```js
 var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
-var bbox2 = new BoundingBox({ lat: 48.5, lon: 16.5 })
+var bbox2 = new BoundingBox({ lat: 48.5, lon: 16.267 })
 console.log(bbox.intersects(bbox2)) // true
 ```
 
