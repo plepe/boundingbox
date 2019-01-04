@@ -121,7 +121,7 @@ describe('BoundingBox', function() {
     var b = new BoundingBox()
 
     assert.deepEqual(
-      {"minlat":-180,"minlon":-90,"maxlat":180,"maxlon":90},
+      {"minlat":-90,"minlon":-180,"maxlat":90,"maxlon":180},
       b
     )
 
