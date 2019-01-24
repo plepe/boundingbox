@@ -80,7 +80,7 @@ describe('BoundingBox', function() {
   })
 
   it('create from GeoJSON', function(done) {
-    var expected = {"minlat":48,"minlon":16,"maxlat":49,"maxlon":17}
+    var expected = {"minlat":16,"minlon":48,"maxlat":17,"maxlon":49}
     var input = {"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[48,16],[49,16],[48.5,16.5],[49,17],[48,17],[48,16]]]}}
 
     assert.deepEqual(

@@ -33,10 +33,10 @@ function BoundingBox (bounds) {
     var b = GeoJSONBounds.extent(bounds)
 
     bounds = {
-      minlat: b[0],
-      minlon: b[1],
-      maxlat: b[2],
-      maxlon: b[3]
+      minlat: b[1],
+      minlon: b[0],
+      maxlat: b[3],
+      maxlon: b[2]
     }
   }
 
