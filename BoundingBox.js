@@ -77,7 +77,9 @@ function BoundingBox (bounds) {
 }
 
 BoundingBox.prototype.intersects = function (other) {
-  other = new BoundingBox(other)
+  if (!(other instanceof BoundingBox)) {
+    other = new BoundingBox(other)
+  }
 
   if (other.maxlat < this.minlat) {
     return false
