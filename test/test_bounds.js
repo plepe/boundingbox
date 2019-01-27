@@ -1,6 +1,6 @@
 var assert = require('assert')
 var BoundingBox = require('../BoundingBox')
-var bounds1, bounds2, bounds3, bounds4, bounds5
+var bounds1, bounds2, bounds3, bounds4, bounds5, bounds6
 
 describe('BoundingBox', function() {
   it('create', function(done) {
@@ -54,6 +54,17 @@ describe('BoundingBox', function() {
     assert.deepEqual(
       {"minlat":48.2,"minlon":16.2,"maxlat":48.2,"maxlon":16.2},
       bounds5
+    )
+
+    bounds6 = new BoundingBox({
+      minlat: 48.2,
+      minlon: 16.2,
+      maxlat: 48.8,
+      maxlon: 16.8
+    })
+    assert.deepEqual(
+      {"minlat":48.2,"minlon":16.2,"maxlat":48.8,"maxlon":16.8},
+      bounds6
     )
 
     done()
@@ -135,6 +146,21 @@ describe('BoundingBox', function() {
     assert.equal(true, bounds1.intersects(bounds5))
     assert.equal(false, bounds2.intersects(bounds5))
     assert.equal(true, bounds3.intersects(bounds5))
+
+    done()
+  })
+
+  it('within()', function(done) {
+    assert.equal(true, bounds4.within(bounds1))
+    assert.equal(true, bounds5.within(bounds1))
+    assert.equal(true, bounds6.within(bounds1))
+    assert.equal(false, bounds1.within(bounds2))
+    assert.equal(false, bounds1.within(bounds3))
+    assert.equal(false, bounds1.within(bounds4))
+    assert.equal(false, bounds1.within(bounds5))
+    assert.equal(false, bounds2.within(bounds5))
+    assert.equal(false, bounds3.within(bounds5))
+    assert.equal(true, bounds5.within(bounds3))
 
     done()
   })

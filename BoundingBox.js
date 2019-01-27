@@ -100,6 +100,30 @@ BoundingBox.prototype.intersects = function (other) {
   return true
 }
 
+BoundingBox.prototype.within = function (other) {
+  if (!(other instanceof BoundingBox)) {
+    other = new BoundingBox(other)
+  }
+
+  if (other.maxlat < this.maxlat) {
+    return false
+  }
+
+  if (other.minlat > this.minlat) {
+    return false
+  }
+
+  if (other.maxlon < this.maxlon) {
+    return false
+  }
+
+  if (other.minlon > this.minlon) {
+    return false
+  }
+
+  return true
+}
+
 BoundingBox.prototype.toTile = function () {
   return new BoundingBox({
     minlat: Math.floor(this.minlat * 10) / 10,
