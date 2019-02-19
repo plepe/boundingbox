@@ -179,6 +179,7 @@ describe('BoundingBox', function() {
     assert.equal(false, bounds2.intersects(bounds5))
     assert.equal(true, bounds3.intersects(bounds5))
     assert.equal(true, bounds7.intersects(bounds9))
+    assert.equal(true, bounds8.intersects(bounds9))
 
     done()
   })

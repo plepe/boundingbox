@@ -82,6 +82,10 @@ BoundingBox.prototype.wrapMaxLon = function () {
   return (this.minlon > this.maxlon) ? this.maxlon + 360 : this.maxlon
 }
 
+BoundingBox.prototype.wrapMinLon = function () {
+  return (this.minlon > this.maxlon) ? this.minlon - 360 : this.minlon
+}
+
 BoundingBox.prototype._wrap = function () {
   if (this.minlon < -180 || this.minlon > 180) {
     this.minlon = (this.minlon + 180) % 360 - 180
@@ -106,11 +110,11 @@ BoundingBox.prototype.intersects = function (other) {
     return false
   }
 
-  if (other.wrapMaxLon() < this.minlon) {
+  if (other.wrapMaxLon() < this.wrapMinLon()) {
     return false
   }
 
-  if (other.minlon > this.wrapMaxLon()) {
+  if (other.wrapMinLon() > this.wrapMaxLon()) {
     return false
   }
 
@@ -134,7 +138,7 @@ BoundingBox.prototype.within = function (other) {
     return false
   }
 
-  if (other.minlon > this.minlon) {
+  if (other.wrapMinLon() > this.wrapMinLon()) {
     return false
   }
 
