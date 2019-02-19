@@ -74,6 +74,19 @@ function BoundingBox (bounds) {
       this[k] = bounds[k]
     }
   }
+
+  this._wrap()
+}
+
+BoundingBox.prototype.wrapMaxLon = function () {
+  return (this.minlon > this.maxlon) ? this.maxlon + 360 : this.maxlon
+}
+
+BoundingBox.prototype._wrap = function () {
+  this.minlon = (this.minlon + 180) % 360 - 180
+  this.maxlon = (this.maxlon + 180) % 360 - 180
+
+  return this
 }
 
 BoundingBox.prototype.intersects = function (other) {
@@ -89,11 +102,11 @@ BoundingBox.prototype.intersects = function (other) {
     return false
   }
 
-  if (other.maxlon < this.minlon) {
+  if (other.wrapMaxLon() < this.minlon) {
     return false
   }
 
-  if (other.minlon > this.maxlon) {
+  if (other.minlon > this.wrapMaxLon()) {
     return false
   }
 
@@ -113,7 +126,7 @@ BoundingBox.prototype.within = function (other) {
     return false
   }
 
-  if (other.maxlon < this.maxlon) {
+  if (other.wrapMaxLon() < this.wrapMaxLon()) {
     return false
   }
 
@@ -151,14 +164,14 @@ BoundingBox.prototype.toLatLonString = function () {
 
 BoundingBox.prototype.diagonalLength = function () {
   var dlat = this.maxlat - this.minlat
-  var dlon = this.maxlon - this.minlon
+  var dlon = this.wrapMaxLon() - this.minlon
 
   return Math.sqrt(dlat * dlat + dlon * dlon)
 }
 
 BoundingBox.prototype.getCenter = function () {
   var dlat = this.maxlat - this.minlat
-  var dlon = this.maxlon - this.minlon
+  var dlon = this.wrapMaxLon() - this.minlon
 
   return {
     lat: this.minlat + dlat / 2,
@@ -183,7 +196,7 @@ BoundingBox.prototype.getWest = function () {
 }
 
 BoundingBox.prototype.extend = function (other) {
-  other = new BoundingBox(other)
+  other = new BoundingBox(other)._wrap()
 
   if (other.minlon < this.minlon) {
     this.minlon = other.minlon
@@ -193,13 +206,15 @@ BoundingBox.prototype.extend = function (other) {
     this.minlat = other.minlat
   }
 
-  if (other.maxlon > this.maxlon) {
-    this.maxlon = other.maxlon
+  if (other.wrapMaxLon() > this.wrapMaxLon()) {
+    this.maxlon = other.wrapMaxLon()
   }
 
   if (other.maxlat > this.maxlat) {
     this.maxlat = other.maxlat
   }
+
+  this._wrap()
 }
 
 BoundingBox.prototype.toGeoJSON = function () {
