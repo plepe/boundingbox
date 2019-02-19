@@ -83,8 +83,12 @@ BoundingBox.prototype.wrapMaxLon = function () {
 }
 
 BoundingBox.prototype._wrap = function () {
-  this.minlon = (this.minlon + 180) % 360 - 180
-  this.maxlon = (this.maxlon + 180) % 360 - 180
+  if (this.minlon < -180 || this.minlon > 180) {
+    this.minlon = (this.minlon + 180) % 360 - 180
+  }
+  if (this.maxlon < -180 || this.maxlon > 180) {
+    this.maxlon = (this.maxlon + 180) % 360 - 180
+  }
 
   return this
 }
