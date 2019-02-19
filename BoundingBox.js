@@ -17,8 +17,8 @@ function BoundingBox (bounds) {
 
   // Leaflet.latLngBounds detected!
   if (typeof bounds.getSouthWest === 'function') {
-    var sw = bounds.getSouthWest()
-    var ne = bounds.getNorthEast()
+    var sw = bounds.getSouthWest().wrap()
+    var ne = bounds.getNorthEast().wrap()
 
     bounds = {
       minlat: sw.lat,
