@@ -9,6 +9,8 @@ const haversine = require('haversine')
  * create bounding box from input
  * @class
  * @param {object|Leaflet.latLngBounds|GeoJSON} bounds Input boundary. Can be an object with { minlat, minlon, maxlat, maxlon } or { lat, lon } or { lat, lng } or [ N (lat), N (lon) ] a GeoJSON object or a Leaflet object (latLng or latLngBounds). The boundary will automatically be wrapped at longitude -180 / 180.
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
  */
 function BoundingBox (bounds) {
   var k
@@ -104,9 +106,13 @@ BoundingBox.prototype._wrap = function () {
 }
 
 /**
- * check if the current boundingbox intersects (overlaps) the other bounding box
+  * Checks whether the other bounding box intersects (shares any portion of space) the current object.
  * @param {BoundingBox} other Other boundingbox to check for
  * @return {boolean} true if the bounding boxes intersect
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * var bbox2 = new BoundingBox({ lat: 48.5, lon: 16.267 })
+ * console.log(bbox.intersects(bbox2)) // true
  */
 BoundingBox.prototype.intersects = function (other) {
   if (!(other instanceof BoundingBox)) {
@@ -133,9 +139,13 @@ BoundingBox.prototype.intersects = function (other) {
 }
 
 /**
- * check if the current boundingbox lies within the other bounding box
+ * Checks whether the current object is fully within the other bounding box.
  * @param {BoundingBox} other Other boundingbox to check for
  * @return {boolean} true if the bounding boxes is within other
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * var bbox2 = new BoundingBox({ lat: 48.5, lon: 16.267 })
+ * console.log(bbox2.within(bbox)) // true
  */
 BoundingBox.prototype.within = function (other) {
   if (!(other instanceof BoundingBox)) {
@@ -173,6 +183,9 @@ BoundingBox.prototype.toTile = function () {
 /**
  * return the bounding box as lon-lat string, e.g. '179.5,55,-179.5,56'
  * @return {string}
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * console.log(bbox.toLonLatString()) // '16.23,48.123,16.367,49.012'
  */
 BoundingBox.prototype.toLonLatString = function () {
   return this.minlon + ',' +
@@ -182,14 +195,20 @@ BoundingBox.prototype.toLonLatString = function () {
 }
 
 /**
- * return the bounding box as lon-lat string, e.g. '179.5,55,-179.5,56'
+ * return the bounding box as lon-lat string, e.g. '179.5,55,-179.5,56'. Useful for sending requests to web services that return geo data.
  * @return {string}
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * console.log(bbox.toBBoxString()) // '16.23,48.123,16.367,49.012'
  */
 BoundingBox.prototype.toBBoxString = BoundingBox.prototype.toLonLatString
 
 /**
- * return the bounding box as lon-lat string, e.g. '55,179.5,56,-179.5'
+ * return the bounding box as lon-lat string, e.g. '55,179.5,56,-179.5'. Useful e.g. for Overpass API requests.
  * @return {string}
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * console.log(bbox.toLatLonString()) // '48.123,16.23,49.012,16.367'
  */
 BoundingBox.prototype.toLatLonString = function () {
   return this.minlat + ',' +
@@ -201,6 +220,9 @@ BoundingBox.prototype.toLatLonString = function () {
 /**
  * return the diagonal length (length of hypothenuse).
  * @return {number}
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * console.log(bbox.diagonalLength()) // 0.8994943023721748
  */
 BoundingBox.prototype.diagonalLength = function () {
   var dlat = this.maxlat - this.minlat
@@ -215,6 +237,9 @@ BoundingBox.prototype.diagonalLength = function () {
  * @param {string} [options.unit=km] Unit of measurement applied to result ('km', 'mile', 'meter', 'nmi')
  * @param {number} [options.threshold] If passed, will result in library returning boolean value of whether or not the start and end points are within that supplied threshold.
  * @return {number}
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * console.log(bbox.diagonalDistance({ unit: 'm' })) // 99.36491328576697
  */
 BoundingBox.prototype.diagonalDistance = function (options = {}) {
   return haversine(
@@ -225,8 +250,11 @@ BoundingBox.prototype.diagonalDistance = function (options = {}) {
 }
 
 /**
- * get center as { lat, lon }
+ * Returns the center point of the bounding box as { lat, lon }
  * @return {object}
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }
  */
 BoundingBox.prototype.getCenter = function () {
   var dlat = this.maxlat - this.minlat
@@ -277,6 +305,11 @@ BoundingBox.prototype.getWest = function () {
 /**
  * extends current boundary by the other boundary
  * @param {BoundingBox} other
+ * @example
+ * var bbox1 = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * var bbox2 = new BoundingBox({ minlat: 48.000, minlon: 16.23, maxlat: 49.012, maxlon: 16.789 })
+ * bbox1.extend(bbox2)
+ * console.log(bbox1.bounds) // { minlat: 48, minlon: 16.23, maxlat: 49.012, maxlon: 16.789 }
  */
 BoundingBox.prototype.extend = function (other) {
   other = new BoundingBox(other)._wrap()
@@ -303,6 +336,25 @@ BoundingBox.prototype.extend = function (other) {
 /**
  * Returns the bounding box as GeoJSON feature.
  * @return {object}
+ * @example
+ * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+ * bbox.toGeoJSON()
+ * // {
+ * //   "type": "Feature",
+ * //   "properties": {},
+ * //   "geometry": {
+ * //     "type": "Polygon",
+ * //     "coordinates": [
+ * //       [
+ * //         [ 16.23, 48.123 ],
+ * //         [ 16.367, 48.123 ],
+ * //         [ 16.367, 49.012 ],
+ * //         [ 16.23, 49.012 ],
+ * //         [ 16.23, 48.123 ]
+ * //       ]
+ * //     ]
+ * //   }
+ * // }
  */
 BoundingBox.prototype.toGeoJSON = function () {
   return {
