@@ -483,6 +483,14 @@ describe('BoundingBox', function() {
       test
     )
 
+    test = new BoundingBox(bounds7)
+    test.extend(bounds9)
+
+    assert.deepEqual(
+      { minlon: 178, minlat: 50, maxlon: -179, maxlat: 65 },
+      test
+    )
+
     done()
   })
 
