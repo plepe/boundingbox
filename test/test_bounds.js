@@ -368,6 +368,45 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('diagonalDistance()', function(done) {
+    assert.equal(
+      0,
+      bounds4.diagonalDistance()
+    )
+
+    assert.equal(
+      133.38781428054213,
+      bounds1.diagonalDistance()
+    )
+
+    assert.equal(
+      133387.8142805421,
+      bounds1.diagonalDistance({ unit: 'meter' })
+    )
+
+    assert.equal(
+      222.47082144925218,
+      bounds2.diagonalDistance()
+    )
+
+    assert.equal(
+      134.02962454571005,
+      bounds3.diagonalDistance()
+    )
+
+    assert.equal(
+      1117.3539982697293,
+      bounds8.diagonalDistance()
+    )
+
+    assert.equal(
+      1117.3539982697293,
+      bounds9.diagonalDistance()
+    )
+
+    done()
+  })
+
   it('getCenter()', function(done) {
     assert.deepEqual({
         lat: 48.5,

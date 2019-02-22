@@ -1,6 +1,7 @@
 'use strict'
 
 var GeoJSONBounds = require('geojson-bounds')
+const haversine = require('haversine')
 
 /* global L:false */
 
@@ -206,6 +207,21 @@ BoundingBox.prototype.diagonalLength = function () {
   var dlon = this.wrapMaxLon() - this.minlon
 
   return Math.sqrt(dlat * dlat + dlon * dlon)
+}
+
+/**
+ * return the diagonal distance (using the haversine function). See https://github.com/njj/haversine for further details.
+ * @param {object} [options] Options
+ * @param {string} [options.unit=km] Unit of measurement applied to result ('km', 'mile', 'meter', 'nmi')
+ * @param {number} [options.threshold] If passed, will result in library returning boolean value of whether or not the start and end points are within that supplied threshold.
+ * @return {number}
+ */
+BoundingBox.prototype.diagonalDistance = function (options = {}) {
+  return haversine(
+    { latitude: this.minlat, longitude: this.minlon },
+    { latitude: this.maxlat, longitude: this.maxlon },
+    options
+  )
 }
 
 /**
