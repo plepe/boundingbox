@@ -180,10 +180,14 @@ BoundingBox.prototype.diagonalLength = function () {
 BoundingBox.prototype.getCenter = function () {
   var dlat = this.maxlat - this.minlat
   var dlon = this.wrapMaxLon() - this.minlon
+  let lon = this.minlon + dlon / 2
+  if (lon < -180 || lon > 180) {
+    lon = (lon + 180) % 360 - 180
+  }
 
   return {
     lat: this.minlat + dlat / 2,
-    lon: this.minlon + dlon / 2
+    lon
   }
 }
 
