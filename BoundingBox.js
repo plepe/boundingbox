@@ -4,6 +4,11 @@ var GeoJSONBounds = require('geojson-bounds')
 
 /* global L:false */
 
+/**
+ * create bounding box from input
+ * @class
+ * @param {object|Leaflet.latLngBounds|GeoJSON} bounds Input boundary. Can be an object with { minlat, minlon, maxlat, maxlon } or { lat, lon } or { lat, lng } or [ N (lat), N (lon) ] a GeoJSON object or a Leaflet object (latLng or latLngBounds). The boundary will automatically be wrapped at longitude -180 / 180.
+ */
 function BoundingBox (bounds) {
   var k
 
@@ -97,6 +102,11 @@ BoundingBox.prototype._wrap = function () {
   return this
 }
 
+/**
+ * check if the current boundingbox intersects (overlaps) the other bounding box
+ * @param {BoundingBox} other Other boundingbox to check for
+ * @return {boolean} true if the bounding boxes intersect
+ */
 BoundingBox.prototype.intersects = function (other) {
   if (!(other instanceof BoundingBox)) {
     other = new BoundingBox(other)
@@ -121,6 +131,11 @@ BoundingBox.prototype.intersects = function (other) {
   return true
 }
 
+/**
+ * check if the current boundingbox lies within the other bounding box
+ * @param {BoundingBox} other Other boundingbox to check for
+ * @return {boolean} true if the bounding boxes is within other
+ */
 BoundingBox.prototype.within = function (other) {
   if (!(other instanceof BoundingBox)) {
     other = new BoundingBox(other)
@@ -154,6 +169,10 @@ BoundingBox.prototype.toTile = function () {
   })
 }
 
+/**
+ * return the bounding box as lon-lat string, e.g. '179.5,55,-179.5,56'
+ * @return {string}
+ */
 BoundingBox.prototype.toLonLatString = function () {
   return this.minlon + ',' +
          this.minlat + ',' +
@@ -161,8 +180,16 @@ BoundingBox.prototype.toLonLatString = function () {
          this.maxlat
 }
 
+/**
+ * return the bounding box as lon-lat string, e.g. '179.5,55,-179.5,56'
+ * @return {string}
+ */
 BoundingBox.prototype.toBBoxString = BoundingBox.prototype.toLonLatString
 
+/**
+ * return the bounding box as lon-lat string, e.g. '55,179.5,56,-179.5'
+ * @return {string}
+ */
 BoundingBox.prototype.toLatLonString = function () {
   return this.minlat + ',' +
          this.minlon + ',' +
@@ -170,6 +197,10 @@ BoundingBox.prototype.toLatLonString = function () {
          this.maxlon
 }
 
+/**
+ * return the diagonal length (length of hypothenuse).
+ * @return {number}
+ */
 BoundingBox.prototype.diagonalLength = function () {
   var dlat = this.maxlat - this.minlat
   var dlon = this.wrapMaxLon() - this.minlon
@@ -177,6 +208,10 @@ BoundingBox.prototype.diagonalLength = function () {
   return Math.sqrt(dlat * dlat + dlon * dlon)
 }
 
+/**
+ * get center as { lat, lon }
+ * @return {object}
+ */
 BoundingBox.prototype.getCenter = function () {
   var dlat = this.maxlat - this.minlat
   var dlon = this.wrapMaxLon() - this.minlon
@@ -191,22 +226,42 @@ BoundingBox.prototype.getCenter = function () {
   }
 }
 
+/**
+ * get Northern boundary (latitude)
+ * @param {number}
+ */
 BoundingBox.prototype.getNorth = function () {
   return this.maxlat
 }
 
+/**
+ * get Southern boundary (latitude)
+ * @param {number}
+ */
 BoundingBox.prototype.getSouth = function () {
   return this.minlat
 }
 
+/**
+ * get Eastern boundary (longitude)
+ * @param {number}
+ */
 BoundingBox.prototype.getEast = function () {
   return this.maxlon
 }
 
+/**
+ * get Western boundary (longitude)
+ * @param {number}
+ */
 BoundingBox.prototype.getWest = function () {
   return this.minlon
 }
 
+/**
+ * extends current boundary by the other boundary
+ * @param {BoundingBox} other
+ */
 BoundingBox.prototype.extend = function (other) {
   other = new BoundingBox(other)._wrap()
 
@@ -229,6 +284,10 @@ BoundingBox.prototype.extend = function (other) {
   this._wrap()
 }
 
+/**
+ * Returns the bounding box as GeoJSON feature.
+ * @return {object}
+ */
 BoundingBox.prototype.toGeoJSON = function () {
   return {
     type: 'Feature',
@@ -246,6 +305,9 @@ BoundingBox.prototype.toGeoJSON = function () {
   }
 }
 
+/**
+ * Returns the bounding box as L.latLngBounds object. Leaflet must be included separately!
+ */
 BoundingBox.prototype.toLeaflet = function () {
   return L.latLngBounds(
     L.latLng(this.minlat, this.minlon),

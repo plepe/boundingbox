@@ -106,7 +106,7 @@ console.log(bbox1.bounds) // { minlat: 48, minlon: 16.23, maxlat: 49.012, maxlon
 Returns the bounding box as GeoJSON feature.
 
 ## Method toLeaflet()
-Returns the bounding box as L.latLngBounds object
+Returns the bounding box as L.latLngBounds object. Leaflet must be included separately!
 
 ## Method toTile()
 (This function is still work in progress)
