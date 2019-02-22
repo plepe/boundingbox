@@ -41,6 +41,16 @@ var bbox2 = new BoundingBox({ lat: 48.5, lon: 16.267 })
 console.log(bbox.intersects(bbox2)) // true
 ```
 
+## Method within(bounds)
+Checks whether the current object is fully within 'bounds'.
+
+Example:
+```js
+var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
+var bbox2 = new BoundingBox({ lat: 48.5, lon: 16.267 })
+console.log(bbox2.within(bbox)) // true
+```
+
 ## Method toLonLatString(), toBBoxString()
 Returns a string with the bounding box coordinates in a 'sw_lon,sw_lat,ne_lon,ne_lat' format. Useful for sending requests to web services that return geo data.
 

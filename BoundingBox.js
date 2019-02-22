@@ -17,8 +17,8 @@ function BoundingBox (bounds) {
 
   // Leaflet.latLngBounds detected!
   if (typeof bounds.getSouthWest === 'function') {
-    var sw = bounds.getSouthWest()
-    var ne = bounds.getNorthEast()
+    var sw = bounds.getSouthWest().wrap()
+    var ne = bounds.getNorthEast().wrap()
 
     bounds = {
       minlat: sw.lat,
@@ -74,10 +74,33 @@ function BoundingBox (bounds) {
       this[k] = bounds[k]
     }
   }
+
+  this._wrap()
+}
+
+BoundingBox.prototype.wrapMaxLon = function () {
+  return (this.minlon > this.maxlon) ? this.maxlon + 360 : this.maxlon
+}
+
+BoundingBox.prototype.wrapMinLon = function () {
+  return (this.minlon > this.maxlon) ? this.minlon - 360 : this.minlon
+}
+
+BoundingBox.prototype._wrap = function () {
+  if (this.minlon < -180 || this.minlon > 180) {
+    this.minlon = (this.minlon + 180) % 360 - 180
+  }
+  if (this.maxlon < -180 || this.maxlon > 180) {
+    this.maxlon = (this.maxlon + 180) % 360 - 180
+  }
+
+  return this
 }
 
 BoundingBox.prototype.intersects = function (other) {
-  other = new BoundingBox(other)
+  if (!(other instanceof BoundingBox)) {
+    other = new BoundingBox(other)
+  }
 
   if (other.maxlat < this.minlat) {
     return false
@@ -87,11 +110,35 @@ BoundingBox.prototype.intersects = function (other) {
     return false
   }
 
-  if (other.maxlon < this.minlon) {
+  if (other.wrapMaxLon() < this.wrapMinLon()) {
     return false
   }
 
-  if (other.minlon > this.maxlon) {
+  if (other.wrapMinLon() > this.wrapMaxLon()) {
+    return false
+  }
+
+  return true
+}
+
+BoundingBox.prototype.within = function (other) {
+  if (!(other instanceof BoundingBox)) {
+    other = new BoundingBox(other)
+  }
+
+  if (other.maxlat < this.maxlat) {
+    return false
+  }
+
+  if (other.minlat > this.minlat) {
+    return false
+  }
+
+  if (other.wrapMaxLon() < this.wrapMaxLon()) {
+    return false
+  }
+
+  if (other.wrapMinLon() > this.wrapMinLon()) {
     return false
   }
 
@@ -125,18 +172,22 @@ BoundingBox.prototype.toLatLonString = function () {
 
 BoundingBox.prototype.diagonalLength = function () {
   var dlat = this.maxlat - this.minlat
-  var dlon = this.maxlon - this.minlon
+  var dlon = this.wrapMaxLon() - this.minlon
 
   return Math.sqrt(dlat * dlat + dlon * dlon)
 }
 
 BoundingBox.prototype.getCenter = function () {
   var dlat = this.maxlat - this.minlat
-  var dlon = this.maxlon - this.minlon
+  var dlon = this.wrapMaxLon() - this.minlon
+  let lon = this.minlon + dlon / 2
+  if (lon < -180 || lon > 180) {
+    lon = (lon + 180) % 360 - 180
+  }
 
   return {
     lat: this.minlat + dlat / 2,
-    lon: this.minlon + dlon / 2
+    lon
   }
 }
 
@@ -157,7 +208,7 @@ BoundingBox.prototype.getWest = function () {
 }
 
 BoundingBox.prototype.extend = function (other) {
-  other = new BoundingBox(other)
+  other = new BoundingBox(other)._wrap()
 
   if (other.minlon < this.minlon) {
     this.minlon = other.minlon
@@ -167,13 +218,15 @@ BoundingBox.prototype.extend = function (other) {
     this.minlat = other.minlat
   }
 
-  if (other.maxlon > this.maxlon) {
-    this.maxlon = other.maxlon
+  if (other.wrapMaxLon() > this.wrapMaxLon()) {
+    this.maxlon = other.wrapMaxLon()
   }
 
   if (other.maxlat > this.maxlat) {
     this.maxlat = other.maxlat
   }
+
+  this._wrap()
 }
 
 BoundingBox.prototype.toGeoJSON = function () {
