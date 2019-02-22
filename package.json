@@ -21,6 +21,8 @@
     "test": "mocha --bail && browserify test/test_*.js --debug -o all_tests.js",
     "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js",
     "prepublish": "npm run build; npm run lint; npm run doc",
+    "preversion": "npm run test",
+    "version": "npm run build; npm run lint; npm run doc; git add doc/ ; git add -A dist/ doc/",
     "doc": "jsdoc -d doc/ BoundingBox.js",
     "lint": "standard --fix BoundingBox.js"
   },
