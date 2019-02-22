@@ -1,6 +1,6 @@
 var assert = require('assert')
 var BoundingBox = require('../BoundingBox')
-var bounds1, bounds2, bounds3, bounds4, bounds5, bounds6, bounds7, bounds8, bounds9, bounds10
+var bounds1, bounds2, bounds3, bounds4, bounds5, bounds6, bounds7, bounds8, bounds9, bounds10, bounds11, bounds12, bounds13
 
 describe('BoundingBox', function() {
   it('create', function(done) {
@@ -99,6 +99,27 @@ describe('BoundingBox', function() {
       maxlon: -179.5
     })
 
+    bounds11 = new BoundingBox({
+      minlat: 55,
+      minlon: 179,
+      maxlat: 60,
+      maxlon: 179.5
+    })
+
+    bounds12 = new BoundingBox({
+      minlat: 55,
+      minlon: -179.5,
+      maxlat: 60,
+      maxlon: -179
+    })
+
+    bounds13 = new BoundingBox({
+      minlat: 55,
+      minlon: 179,
+      maxlat: 65,
+      maxlon: -169
+    })
+
     done()
   })
 
@@ -180,11 +201,21 @@ describe('BoundingBox', function() {
     assert.equal(true, bounds3.intersects(bounds5))
     assert.equal(true, bounds7.intersects(bounds9))
     assert.equal(true, bounds8.intersects(bounds9))
+    assert.equal(true, bounds10.intersects(bounds9))
+    assert.equal(true, bounds9.intersects(bounds11))
+    assert.equal(true, bounds11.intersects(bounds9))
+    assert.equal(true, bounds9.intersects(bounds12))
+    assert.equal(true, bounds12.intersects(bounds9))
+    assert.equal(true, bounds10.intersects(bounds11))
+    assert.equal(true, bounds11.intersects(bounds10))
+    assert.equal(true, bounds10.intersects(bounds12))
+    assert.equal(true, bounds12.intersects(bounds10))
 
     done()
   })
 
   it('within()', function(done) {
+    assert.equal(true, bounds1.within(bounds1))
     assert.equal(true, bounds4.within(bounds1))
     assert.equal(true, bounds5.within(bounds1))
     assert.equal(true, bounds6.within(bounds1))
@@ -196,6 +227,15 @@ describe('BoundingBox', function() {
     assert.equal(false, bounds3.within(bounds5))
     assert.equal(true, bounds5.within(bounds3))
     assert.equal(true, bounds10.within(bounds9))
+    assert.equal(false, bounds9.within(bounds10))
+    assert.equal(false, bounds9.within(bounds11))
+    assert.equal(true, bounds11.within(bounds9))
+    assert.equal(false, bounds9.within(bounds12))
+    assert.equal(true, bounds12.within(bounds9))
+    assert.equal(false, bounds10.within(bounds11))
+    assert.equal(false, bounds11.within(bounds10))
+    assert.equal(false, bounds10.within(bounds12))
+    assert.equal(false, bounds12.within(bounds10))
 
     done()
   })
@@ -223,6 +263,18 @@ describe('BoundingBox', function() {
       b
     )
 
+    var b = bounds10.toBBoxString()
+    assert.deepEqual(
+      '179.5,59,-179.5,61',
+      b
+    )
+
+    var b = bounds12.toBBoxString()
+    assert.deepEqual(
+      '-179.5,55,-179,60',
+      b
+    )
+
     done()
   })
 
@@ -239,6 +291,18 @@ describe('BoundingBox', function() {
       b
     )
 
+    var b = bounds10.toLonLatString()
+    assert.deepEqual(
+      '179.5,59,-179.5,61',
+      b
+    )
+
+    var b = bounds12.toLonLatString()
+    assert.deepEqual(
+      '-179.5,55,-179,60',
+      b
+    )
+
     done()
   })
 
@@ -252,6 +316,18 @@ describe('BoundingBox', function() {
     var b = bounds4.toLatLonString()
     assert.deepEqual(
       '48.1,16.1,48.1,16.1',
+      b
+    )
+
+    var b = bounds10.toLatLonString()
+    assert.deepEqual(
+      '59,179.5,61,-179.5',
+      b
+    )
+
+    var b = bounds12.toLatLonString()
+    assert.deepEqual(
+      '55,-179.5,60,-179',
       b
     )
 
@@ -279,6 +355,16 @@ describe('BoundingBox', function() {
       bounds3.diagonalLength()
     )
 
+    assert.equal(
+      10.198039027185569,
+      bounds8.diagonalLength()
+    )
+
+    assert.equal(
+      10.198039027185569,
+      bounds9.diagonalLength()
+    )
+
     done()
   })
 
@@ -295,6 +381,27 @@ describe('BoundingBox', function() {
         lon: 16.1
       },
       bounds4.getCenter()
+    )
+
+    assert.deepEqual({
+        lat: 60,
+        lon: -179
+      },
+      bounds8.getCenter()
+    )
+
+    assert.deepEqual({
+        lat: 60,
+        lon: 180
+      },
+      bounds9.getCenter()
+    )
+
+    assert.deepEqual({
+        lat: 60,
+        lon: -175
+      },
+      bounds13.getCenter()
     )
 
     done()
