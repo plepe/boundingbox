@@ -376,11 +376,17 @@ BoundingBox.prototype.toGeoJSON = function () {
 
 /**
  * Returns the bounding box as L.latLngBounds object. Leaflet must be included separately!
+ * @param {object} [options] Options.
+ * @param {number[]} [options.shiftWorld=[0, 0]] Shift the world by the first value for the Western hemisphere (lon < 0) or the second value for the Eastern hemisphere (lon >= 0).
  */
-BoundingBox.prototype.toLeaflet = function () {
+BoundingBox.prototype.toLeaflet = function (options = {}) {
+  if (!('shiftWorld' in options)) {
+    options.shiftWorld = [ 0, 0 ]
+  }
+
   return L.latLngBounds(
-    L.latLng(this.minlat, this.minlon),
-    L.latLng(this.maxlat, this.maxlon)
+    L.latLng(this.minlat, this.minlon + (this.minlon < 0 ? options.shiftWorld[0] : options.shiftWorld[1])),
+    L.latLng(this.maxlat, this.maxlon + (this.maxlon < 0 ? options.shiftWorld[0] : options.shiftWorld[1]))
   )
 }
 
