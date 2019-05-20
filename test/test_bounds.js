@@ -164,6 +164,14 @@ describe('BoundingBox', function() {
       new BoundingBox(input)
     )
 
+    expected = {"minlat":0,"minlon":100,"maxlat":0,"maxlon":-179}
+    input = {"type":"Feature","properties":{},"geometry":{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[100,0]},{"type":"Point","coordinates":[-179,0]}]}}
+
+    assert.deepEqual(
+      expected,
+      new BoundingBox(input)
+    )
+
     done()
   })
 

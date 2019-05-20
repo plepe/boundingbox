@@ -40,7 +40,14 @@ function BoundingBox (bounds) {
   if (bounds.type === 'Feature') {
     let boxes
 
-    if ([ 'MultiPoint', 'MultiPolygon', 'MultiLineString' ].includes(bounds.geometry.type)) {
+    if (bounds.geometry.type === 'GeometryCollection') {
+      boxes = bounds.geometry.geometries.map(
+        geometry => {
+          let b = new BoundingBox({ type: 'Feature', geometry })
+          return [ b.minlon, b.minlat, b.maxlon, b.maxlat ]
+        }
+      )
+    } else if ([ 'MultiPoint', 'MultiPolygon', 'MultiLineString' ].includes(bounds.geometry.type)) {
       boxes = bounds.geometry.coordinates.map(
         geom => GeoJSONBounds.extent({ type: 'Feature', geometry: { type: bounds.geometry.type.substr(5), coordinates: geom } })
       )
