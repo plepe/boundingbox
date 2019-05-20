@@ -497,8 +497,10 @@ describe('BoundingBox', function() {
   it('toGeoJSON()', function(done) {
 
     var expected = {"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[16,48],[17,48],[17,49],[16,49],[16,48]]]}}
-
     assert.deepEqual(expected, bounds1.toGeoJSON())
+
+    var expected = {"type":"Feature","properties":{},"geometry":{"type":"MultiPolygon","coordinates":[[[[179,55],[180,55],[180,65],[179,65],[179,55]]],[[[-180,55],[-169,55],[-169,65],[-180,65],[-180,55]]]]}}
+    assert.deepEqual(expected, bounds13.toGeoJSON())
 
     done()
   })

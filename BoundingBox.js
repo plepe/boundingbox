@@ -334,7 +334,7 @@ BoundingBox.prototype.extend = function (other) {
 }
 
 /**
- * Returns the bounding box as GeoJSON feature.
+ * Returns the bounding box as GeoJSON feature. In case of bounding boxes crossing the antimeridian, this function will return a multipolygon with the parts on each side of the antimeridian (as specified in RFC 7946, section 3.1.9).
  * @return {object}
  * @example
  * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
@@ -357,6 +357,32 @@ BoundingBox.prototype.extend = function (other) {
  * // }
  */
 BoundingBox.prototype.toGeoJSON = function () {
+  if (this.minlon > this.maxlon) {
+    return {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        'type': 'MultiPolygon',
+        'coordinates': [
+          [[
+            [ this.minlon, this.minlat ],
+            [ 180, this.minlat ],
+            [ 180, this.maxlat ],
+            [ this.minlon, this.maxlat ],
+            [ this.minlon, this.minlat ]
+          ]],
+          [[
+            [ -180, this.minlat ],
+            [ this.maxlon, this.minlat ],
+            [ this.maxlon, this.maxlat ],
+            [ -180, this.maxlat ],
+            [ -180, this.minlat ]
+          ]]
+        ]
+      }
+    }
+  }
+
   return {
     type: 'Feature',
     properties: {},
