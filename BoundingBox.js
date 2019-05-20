@@ -314,16 +314,21 @@ BoundingBox.prototype.getWest = function () {
 BoundingBox.prototype.extend = function (other) {
   other = new BoundingBox(other)._wrap()
 
-  if (other.minlon < this.minlon) {
-    this.minlon = other.minlon
+  let min1 = Math.min(this.minlon, other.minlon)
+  let min2 = Math.max(this.minlon, other.minlon)
+  let max1 = Math.max(this.wrapMaxLon(), other.wrapMaxLon())
+  let max2 = Math.min(this.wrapMaxLon(), other.wrapMaxLon())
+
+  if (max1 - min1 < max2 - min2 + 360) {
+    this.minlon = min1
+    this.maxlon = max1
+  } else {
+    this.minlon = min2
+    this.maxlon = max2
   }
 
   if (other.minlat < this.minlat) {
     this.minlat = other.minlat
-  }
-
-  if (other.wrapMaxLon() > this.wrapMaxLon()) {
-    this.maxlon = other.wrapMaxLon()
   }
 
   if (other.maxlat > this.maxlat) {
