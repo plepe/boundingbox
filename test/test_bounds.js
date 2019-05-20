@@ -155,6 +155,18 @@ describe('BoundingBox', function() {
     done()
   })
 
+  it('create from GeoJSON - crossing antimeridian', function(done) {
+    var expected = {"minlat":16,"minlon":178,"maxlat":17,"maxlon":-178}
+    var input = {"type":"Feature","properties":{},"geometry":{"type":"MultiPolygon","coordinates":[[[[178,16],[179,16],[179,17],[178,17],[178,16]]],[[[-178,16],[-179,16],[-179,17],[-178,17],[-178,16]]]]}}
+
+    assert.deepEqual(
+      expected,
+      new BoundingBox(input)
+    )
+
+    done()
+  })
+
   if(typeof L != 'undefined')
   it('create from Leaflet L.latLngBounds', function(done) {
     var leaflet_bounds = L.latLngBounds(L.latLng(40.712, -74.227), L.latLng(40.774, -74.125))

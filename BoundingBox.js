@@ -38,14 +38,33 @@ function BoundingBox (bounds) {
 
   // GeoJSON detected
   if (bounds.type === 'Feature') {
-    var b = GeoJSONBounds.extent(bounds)
+    let boxes
 
-    bounds = {
+    if ([ 'MultiPoint', 'MultiPolygon', 'MultiLineString' ].includes(bounds.geometry.type)) {
+      boxes = bounds.geometry.coordinates.map(
+        geom => GeoJSONBounds.extent({ type: 'Feature', geometry: { type: bounds.geometry.type.substr(5), coordinates: geom } })
+      )
+    } else {
+      boxes = [ GeoJSONBounds.extent(bounds) ]
+    }
+
+    let b = boxes.shift()
+
+    this.minlat = b[1]
+    this.minlon = b[0]
+    this.maxlat = b[3]
+    this.maxlon = b[2]
+
+    boxes.forEach(b => this.extend({
       minlat: b[1],
       minlon: b[0],
       maxlat: b[3],
       maxlon: b[2]
-    }
+    }))
+
+    this._wrap()
+
+    return
   }
 
   if ('bounds' in bounds) {
