@@ -338,7 +338,7 @@ BoundingBox.prototype.getWest = function () {
  * console.log(bbox1.bounds) // { minlat: 48, minlon: 16.23, maxlat: 49.012, maxlon: 16.789 }
  */
 BoundingBox.prototype.extend = function (other) {
-  other = new BoundingBox(other)._wrap()
+  other = new BoundingBox(other)
 
   let min1 = Math.min(this.minlon, other.minlon)
   let min2 = Math.max(this.minlon, other.minlon)
