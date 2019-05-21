@@ -245,7 +245,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line204">line 204</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -498,7 +498,7 @@ console.log(bbox.toBBoxString()) // '16.23,48.123,16.367,49.012'</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line244">line 244</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -608,7 +608,7 @@ console.log(bbox.diagonalDistance({ unit: 'm' })) // 99.36491328576697</code></p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line227">line 227</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line253">line 253</a>
     </li></ul></dd>
     
 
@@ -767,7 +767,7 @@ console.log(bbox.diagonalLength()) // 0.8994943023721748</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line314">line 314</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line340">line 340</a>
     </li></ul></dd>
     
 
@@ -861,7 +861,7 @@ console.log(bbox1.bounds) // { minlat: 48, minlon: 16.23, maxlat: 49.012, maxlon
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line259">line 259</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line285">line 285</a>
     </li></ul></dd>
     
 
@@ -1016,7 +1016,7 @@ console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line293">line 293</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line319">line 319</a>
     </li></ul></dd>
     
 
@@ -1147,7 +1147,7 @@ console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line277">line 277</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line303">line 303</a>
     </li></ul></dd>
     
 
@@ -1278,7 +1278,7 @@ console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line285">line 285</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line311">line 311</a>
     </li></ul></dd>
     
 
@@ -1409,7 +1409,7 @@ console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line301">line 301</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -1544,7 +1544,7 @@ console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line117">line 117</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -1615,7 +1615,7 @@ console.log(bbox.intersects(bbox2)) // true</code></pre>
 
 
 <div class="description">
-    Returns the bounding box as GeoJSON feature.
+    Returns the bounding box as GeoJSON feature. In case of bounding boxes crossing the antimeridian, this function will return a multipolygon with the parts on each side of the antimeridian (as specified in RFC 7946, section 3.1.9).
 </div>
 
 
@@ -1659,7 +1659,7 @@ console.log(bbox.intersects(bbox2)) // true</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line359">line 359</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line392">line 392</a>
     </li></ul></dd>
     
 
@@ -1785,7 +1785,7 @@ bbox.toGeoJSON()
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line213">line 213</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -2025,7 +2025,7 @@ console.log(bbox.toLatLonString()) // '48.123,16.23,49.012,16.367'</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line381">line 381</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line440">line 440</a>
     </li></ul></dd>
     
 
@@ -2111,7 +2111,7 @@ console.log(bbox.toLatLonString()) // '48.123,16.23,49.012,16.367'</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line190">line 190</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line216">line 216</a>
     </li></ul></dd>
     
 
@@ -2270,7 +2270,7 @@ console.log(bbox.toLonLatString()) // '16.23,48.123,16.367,49.012'</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line150">line 150</a>
+        <a href="BoundingBox.js.html">BoundingBox.js</a>, <a href="BoundingBox.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -2349,7 +2349,7 @@ console.log(bbox2.within(bbox)) // true</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 03 2019 15:58:15 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 21 2019 21:45:50 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

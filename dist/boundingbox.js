@@ -39,14 +39,40 @@ function BoundingBox (bounds) {
 
   // GeoJSON detected
   if (bounds.type === 'Feature') {
-    var b = GeoJSONBounds.extent(bounds)
+    let boxes
 
-    bounds = {
+    if (bounds.geometry.type === 'GeometryCollection') {
+      boxes = bounds.geometry.geometries.map(
+        geometry => {
+          let b = new BoundingBox({ type: 'Feature', geometry })
+          return [ b.minlon, b.minlat, b.maxlon, b.maxlat ]
+        }
+      )
+    } else if ([ 'MultiPoint', 'MultiPolygon', 'MultiLineString' ].includes(bounds.geometry.type)) {
+      boxes = bounds.geometry.coordinates.map(
+        geom => GeoJSONBounds.extent({ type: 'Feature', geometry: { type: bounds.geometry.type.substr(5), coordinates: geom } })
+      )
+    } else {
+      boxes = [ GeoJSONBounds.extent(bounds) ]
+    }
+
+    let b = boxes.shift()
+
+    this.minlat = b[1]
+    this.minlon = b[0]
+    this.maxlat = b[3]
+    this.maxlon = b[2]
+
+    boxes.forEach(b => this.extend({
       minlat: b[1],
       minlon: b[0],
       maxlat: b[3],
       maxlon: b[2]
-    }
+    }))
+
+    this._wrap()
+
+    return
   }
 
   if ('bounds' in bounds) {
@@ -313,18 +339,25 @@ BoundingBox.prototype.getWest = function () {
  * console.log(bbox1.bounds) // { minlat: 48, minlon: 16.23, maxlat: 49.012, maxlon: 16.789 }
  */
 BoundingBox.prototype.extend = function (other) {
-  other = new BoundingBox(other)._wrap()
+  if (!(other instanceof BoundingBox)) {
+    other = new BoundingBox(other)
+  }
 
-  if (other.minlon < this.minlon) {
-    this.minlon = other.minlon
+  let min1 = Math.min(this.minlon, other.minlon)
+  let min2 = Math.max(this.minlon, other.minlon)
+  let max1 = Math.max(this.wrapMaxLon(), other.wrapMaxLon())
+  let max2 = Math.min(this.wrapMaxLon(), other.wrapMaxLon())
+
+  if (max1 - min1 < max2 - min2 + 360) {
+    this.minlon = min1
+    this.maxlon = max1
+  } else {
+    this.minlon = min2
+    this.maxlon = max2
   }
 
   if (other.minlat < this.minlat) {
     this.minlat = other.minlat
-  }
-
-  if (other.wrapMaxLon() > this.wrapMaxLon()) {
-    this.maxlon = other.wrapMaxLon()
   }
 
   if (other.maxlat > this.maxlat) {
@@ -335,7 +368,7 @@ BoundingBox.prototype.extend = function (other) {
 }
 
 /**
- * Returns the bounding box as GeoJSON feature.
+ * Returns the bounding box as GeoJSON feature. In case of bounding boxes crossing the antimeridian, this function will return a multipolygon with the parts on each side of the antimeridian (as specified in RFC 7946, section 3.1.9).
  * @return {object}
  * @example
  * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
@@ -358,6 +391,32 @@ BoundingBox.prototype.extend = function (other) {
  * // }
  */
 BoundingBox.prototype.toGeoJSON = function () {
+  if (this.minlon > this.maxlon) {
+    return {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        'type': 'MultiPolygon',
+        'coordinates': [
+          [[
+            [ this.minlon, this.minlat ],
+            [ 180, this.minlat ],
+            [ 180, this.maxlat ],
+            [ this.minlon, this.maxlat ],
+            [ this.minlon, this.minlat ]
+          ]],
+          [[
+            [ -180, this.minlat ],
+            [ this.maxlon, this.minlat ],
+            [ this.maxlon, this.maxlat ],
+            [ -180, this.maxlat ],
+            [ -180, this.minlat ]
+          ]]
+        ]
+      }
+    }
+  }
+
   return {
     type: 'Feature',
     properties: {},
