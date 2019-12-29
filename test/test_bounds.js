@@ -1,56 +1,116 @@
 var assert = require('assert')
 var BoundingBox = require('../BoundingBox')
-var bounds1, bounds2, bounds3, bounds4, bounds5, bounds6, bounds7, bounds8, bounds9, bounds10, bounds11, bounds12, bounds13
+
+var bounds1 = new BoundingBox({
+  minlat: 48,
+  minlon: 16,
+  maxlat: 49,
+  maxlon: 17
+})
+
+var bounds2 = new BoundingBox({
+  minlat: 45.1234,
+  minlon: 16,
+  maxlat: 47,
+  maxlon: 17
+})
+
+// note: minlat/maxlat interchanged
+var bounds3 = new BoundingBox({
+  minlat: 47.2,
+  minlon: 16,
+  maxlat: 48.2,
+  maxlon: 17
+})
+
+var bounds4 = new BoundingBox({
+  lat: 48.1,
+  lon: 16.1
+})
+
+var bounds5 = new BoundingBox({
+  lat: 48.2,
+  lon: 16.2
+})
+
+var bounds6 = new BoundingBox({
+  minlat: 48.2,
+  minlon: 16.2,
+  maxlat: 48.8,
+  maxlon: 16.8
+})
+
+var bounds7 = new BoundingBox({
+  minlat: 50,
+  minlon: 178,
+  maxlat: 60,
+  maxlon: 180
+})
+
+var bounds8 = new BoundingBox({
+  minlat: 55,
+  minlon: -180,
+  maxlat: 65,
+  maxlon: -178
+})
+
+var bounds9 = new BoundingBox({
+  minlat: 55,
+  minlon: 179,
+  maxlat: 65,
+  maxlon: -179
+})
+
+var bounds10 = new BoundingBox({
+  minlat: 59,
+  minlon: 179.5,
+  maxlat: 61,
+  maxlon: -179.5
+})
+
+var bounds11 = new BoundingBox({
+  minlat: 55,
+  minlon: 179,
+  maxlat: 60,
+  maxlon: 179.5
+})
+
+var bounds12 = new BoundingBox({
+  minlat: 55,
+  minlon: -179.5,
+  maxlat: 60,
+  maxlon: -179
+})
+
+var bounds13 = new BoundingBox({
+  minlat: 55,
+  minlon: 179,
+  maxlat: 65,
+  maxlon: -169
+})
 
 describe('BoundingBox', function() {
   it('create', function(done) {
-    bounds1 = new BoundingBox({
-      minlat: 48,
-      minlon: 16,
-      maxlat: 49,
-      maxlon: 17
-    })
     assert.deepEqual(
       {"minlat":48,"minlon":16,"maxlat":49,"maxlon":17},
       bounds1
     )
 
-    bounds2 = new BoundingBox({
-      minlat: 45.1234,
-      minlon: 16,
-      maxlat: 47,
-      maxlon: 17
-    })
     assert.deepEqual(
       {"minlat":45.1234,"minlon":16,"maxlat":47,"maxlon":17},
       bounds2
     )
 
-    // note: minlat/maxlat interchanged
-    bounds3 = new BoundingBox({
-      minlat: 47.2,
-      minlon: 16,
-      maxlat: 48.2,
-      maxlon: 17
-    })
     assert.deepEqual(
       {"minlat":47.2,"minlon":16,"maxlat":48.2,"maxlon":17},
       bounds3
     )
 
-    bounds4 = new BoundingBox({
-      lat: 48.1,
-      lon: 16.1
-    })
     assert.deepEqual(
       {"minlat":48.1,"minlon":16.1,"maxlat":48.1,"maxlon":16.1},
       bounds4
     )
 
-    bounds5 = new BoundingBox({
-      lat: 48.2,
-      lon: 16.2
-    })
     assert.deepEqual(
       {"minlat":48.2,"minlon":16.2,"maxlat":48.2,"maxlon":16.2},
       bounds5
