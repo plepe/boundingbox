@@ -494,32 +494,36 @@ describe('BoundingBox', function() {
     done()
   })
 
-  it('extend()', function (done) {
-    var test = new BoundingBox(bounds1)
-    test.extend(bounds2)
+  describe('extend()', function () {
+    it ('1 + 2', function () {
+      var test = new BoundingBox(bounds1)
+      test.extend(bounds2)
 
-    assert.deepEqual(
-      {"minlat":45.1234,"minlon":16,"maxlat":49,"maxlon":17},
-      test
-    )
+      assert.deepEqual(
+        {"minlat":45.1234,"minlon":16,"maxlat":49,"maxlon":17},
+        test
+      )
+    })
 
-    test = new BoundingBox(bounds7)
-    test.extend(bounds9)
+    it ('7 + 9', function () {
+      var test = new BoundingBox(bounds7)
+      test.extend(bounds9)
 
-    assert.deepEqual(
-      { minlon: 178, minlat: 50, maxlon: -179, maxlat: 65 },
-      test
-    )
+      assert.deepEqual(
+        { minlon: 178, minlat: 50, maxlon: -179, maxlat: 65 },
+        test
+      )
+    })
 
-    test = new BoundingBox(bounds11)
-    test.extend(bounds12)
+    it ('11 + 12', function () {
+      var test = new BoundingBox(bounds11)
+      test.extend(bounds12)
 
-    assert.deepEqual(
-      { minlon: 179, minlat: 55, maxlon: -179, maxlat: 60 },
-      test
-    )
-
-    done()
+      assert.deepEqual(
+        { minlon: 179, minlat: 55, maxlon: -179, maxlat: 60 },
+        test
+      )
+    })
   })
 
   it('toGeoJSON()', function(done) {
