@@ -15,10 +15,13 @@
   "devDependencies": {
     "browserify": "*",
     "leaflet": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "watchify": "^3.11.1"
   },
   "scripts": {
-    "test": "mocha --bail && browserify test/test_*.js --debug -o all_tests.js",
+    "test": "mocha --bail",
+    "build-test": "browserify test/test_*.js --debug -o all_tests.js",
+    "watch-test": "watchify test/test_*.js --debug -o all_tests.js -v",
     "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js",
     "prepublish": "npm run build; npm run lint; npm run doc",
     "preversion": "npm run test",
