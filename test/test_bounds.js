@@ -524,6 +524,46 @@ describe('BoundingBox', function() {
         test
       )
     })
+
+    it ('2 + 9', function () {
+      var test = new BoundingBox(bounds2)
+      test.extend(bounds9)
+
+      assert.deepEqual(
+        { minlon: 16, minlat: 45.1234, maxlon: -179, maxlat: 65 },
+        test
+      )
+    })
+
+    it ('9 + 2', function () {
+      var test = new BoundingBox(bounds9)
+      test.extend(bounds2)
+
+      assert.deepEqual(
+        { minlon: 16, minlat: 45.1234, maxlon: -179, maxlat: 65 },
+        test
+      )
+    })
+
+    it ('special case 1', function () {
+      var test = new BoundingBox({minlon: 16.2551852, minlat: 48.1817041, maxlon: -179.9884861, maxlat: 65.8660295})
+      test.extend({minlat: 65.8637, maxlat: 65.8637, minlon: -180, maxlon: -180})
+
+      assert.deepEqual(
+        {minlon: 16.2551852, minlat: 48.1817041, maxlon: -179.9884861, maxlat: 65.8660295},
+        test
+      )
+    })
+
+    it ('special case 2', function () {
+      var test = new BoundingBox({minlon: 16.2551852, minlat: 48.1817041, maxlon: -179.9884861, maxlat: 65.8660295})
+      test.extend({minlat: 65.8637, maxlat: 65.8637, minlon: 180, maxlon: 180})
+
+      assert.deepEqual(
+        {minlon: 16.2551852, minlat: 48.1817041, maxlon: -179.9884861, maxlat: 65.8660295},
+        test
+      )
+    })
   })
 
   it('toGeoJSON()', function(done) {
