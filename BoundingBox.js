@@ -342,6 +342,25 @@ BoundingBox.prototype.extend = function (other) {
     other = new BoundingBox(other)
   }
 
+  if (other.minlat < this.minlat) {
+    this.minlat = other.minlat
+  }
+
+  if (other.maxlat > this.maxlat) {
+    this.maxlat = other.maxlat
+  }
+
+  // does bounds intersect with other bounds in longitude?
+  for (let shift = -360; shift <= 360; shift += 360) {
+    if (other.wrapMaxLon() + shift > this.minlon && other.minlon + shift < this.wrapMaxLon()) {
+      this.minlon = Math.min(this.minlon, other.minlon + shift)
+      this.maxlon = Math.max(this.wrapMaxLon(), other.wrapMaxLon() + shift)
+
+      this._wrap()
+      return
+    }
+  }
+
   let min1 = Math.min(this.minlon, other.minlon)
   let min2 = Math.max(this.minlon, other.minlon)
   let max1 = Math.max(this.wrapMaxLon(), other.wrapMaxLon())
@@ -353,14 +372,6 @@ BoundingBox.prototype.extend = function (other) {
   } else {
     this.minlon = min2
     this.maxlon = max2
-  }
-
-  if (other.minlat < this.minlat) {
-    this.minlat = other.minlat
-  }
-
-  if (other.maxlat > this.maxlat) {
-    this.maxlat = other.maxlat
   }
 
   this._wrap()
