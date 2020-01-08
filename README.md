@@ -30,7 +30,7 @@ Example:
 var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
 ```
 
-Find the full documentation in the [jsdoc](https://rawgit.com/plepe/boundingbox/master/doc/BoundingBox.html). You can re-generate the documentation with `npm run doc`.
+Find the full documentation in the [jsdoc](https://www.openstreetbrowser.org/docs/boundingbox/BoundingBox.html). You can re-generate the documentation with `npm run doc`.
 
 # Tests
 To run tests with nodejs, just call `./run_tests`
