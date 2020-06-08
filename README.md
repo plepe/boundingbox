@@ -33,6 +33,6 @@ var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxl
 Find the full documentation in the [jsdoc](https://www.openstreetbrowser.org/docs/boundingbox/BoundingBox.html). You can re-generate the documentation with `npm run doc`.
 
 # Tests
-To run tests with nodejs, just call `./run_tests`
+To run tests with nodejs, just call `npm run test`
 
-To run tests in a browser, call `./run_tests` first, which will create `all_tests.js` and then open the file `test.html` in your favorite browser.
+To run tests in a browser, call `npm run build-test` or `npm run watch-test` (with debug symbols; listening for changes and auto-recompile) first (which will create `all_tests.js`) and then open the file `test.html` in your favorite browser.
