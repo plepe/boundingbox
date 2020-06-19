@@ -23,9 +23,9 @@
     "build-test": "browserify test/test_*.js --debug -o all_tests.js",
     "watch-test": "watchify test/test_*.js --debug -o all_tests.js -v",
     "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js",
-    "prepublish": "npm run build; npm run lint; npm run doc",
-    "preversion": "npm run test",
-    "version": "npm run build; npm run lint; npm run doc; git add doc/ ; git add -A dist/ doc/",
+    "prepare": "npm run build",
+    "preversion": "npm run test; npm run lint",
+    "version": "npm run build; npm run doc; git add doc/ ; git add -A dist/ doc/",
     "doc": "jsdoc -d doc/ BoundingBox.js",
     "lint": "standard --fix BoundingBox.js"
   },
