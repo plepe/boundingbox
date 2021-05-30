@@ -468,7 +468,7 @@ if (typeof window !== 'undefined') {
 }
 
 },{"geojson-bounds":2,"haversine":3}],2:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 (function() {
   /*
    Modified version of underscore.js's flatten function
@@ -652,7 +652,7 @@ if (typeof window !== 'undefined') {
 
 }());
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"_process":4}],3:[function(require,module,exports){
 var haversine = (function () {
   var RADII = {
