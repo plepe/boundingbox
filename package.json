@@ -16,7 +16,7 @@
     "leaflet": "^1.7.1",
     "mocha": "^6.2.2",
     "standard": "^12.0.1",
-    "watchify": "^3.11.1"
+    "watchify": "^4.0.0"
   },
   "scripts": {
     "test": "mocha --bail",
