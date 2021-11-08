@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict'
 
-var GeoJSONBounds = require('geojson-bounds')
+const GeoJSONBounds = require('geojson-bounds')
 const haversine = require('haversine')
 
 /* global L:false */
@@ -14,7 +14,7 @@ const haversine = require('haversine')
  * var bbox = new BoundingBox({ minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 })
  */
 function BoundingBox (bounds) {
-  var k
+  let k
 
   if (bounds === null || typeof bounds === 'undefined') {
     this.minlat = -90
@@ -26,8 +26,8 @@ function BoundingBox (bounds) {
 
   // Leaflet.latLngBounds detected!
   if (typeof bounds.getSouthWest === 'function') {
-    var sw = bounds.getSouthWest().wrap()
-    var ne = bounds.getNorthEast().wrap()
+    const sw = bounds.getSouthWest().wrap()
+    const ne = bounds.getNorthEast().wrap()
 
     bounds = {
       minlat: sw.lat,
@@ -44,19 +44,19 @@ function BoundingBox (bounds) {
     if (bounds.geometry.type === 'GeometryCollection') {
       boxes = bounds.geometry.geometries.map(
         geometry => {
-          let b = new BoundingBox({ type: 'Feature', geometry })
-          return [ b.minlon, b.minlat, b.maxlon, b.maxlat ]
+          const b = new BoundingBox({ type: 'Feature', geometry })
+          return [b.minlon, b.minlat, b.maxlon, b.maxlat]
         }
       )
-    } else if ([ 'MultiPoint', 'MultiPolygon', 'MultiLineString' ].includes(bounds.geometry.type)) {
+    } else if (['MultiPoint', 'MultiPolygon', 'MultiLineString'].includes(bounds.geometry.type)) {
       boxes = bounds.geometry.coordinates.map(
         geom => GeoJSONBounds.extent({ type: 'Feature', geometry: { type: bounds.geometry.type.substr(5), coordinates: geom } })
       )
     } else {
-      boxes = [ GeoJSONBounds.extent(bounds) ]
+      boxes = [GeoJSONBounds.extent(bounds)]
     }
 
-    let b = boxes.shift()
+    const b = boxes.shift()
 
     this.minlat = b[1]
     this.minlon = b[0]
@@ -89,6 +89,13 @@ function BoundingBox (bounds) {
     this.maxlon = bounds.lon
   }
 
+  if (bounds.latitude) {
+    this.minlat = bounds.latitude
+    this.maxlat = bounds.latitude
+    this.minlon = bounds.longitude
+    this.maxlon = bounds.longitude
+  }
+
   if (Array.isArray(bounds)) {
     this.minlat = bounds[0]
     this.maxlat = bounds[0]
@@ -102,8 +109,8 @@ function BoundingBox (bounds) {
     this.maxlon = bounds.lng
   }
 
-  var props = ['minlon', 'minlat', 'maxlon', 'maxlat']
-  for (var i = 0; i < props.length; i++) {
+  const props = ['minlon', 'minlat', 'maxlon', 'maxlat']
+  for (let i = 0; i < props.length; i++) {
     k = props[i]
     if (k in bounds) {
       this[k] = bounds[k]
@@ -252,8 +259,8 @@ BoundingBox.prototype.toLatLonString = function () {
  * console.log(bbox.diagonalLength()) // 0.8994943023721748
  */
 BoundingBox.prototype.diagonalLength = function () {
-  var dlat = this.maxlat - this.minlat
-  var dlon = this.wrapMaxLon() - this.minlon
+  const dlat = this.maxlat - this.minlat
+  const dlon = this.wrapMaxLon() - this.minlon
 
   return Math.sqrt(dlat * dlat + dlon * dlon)
 }
@@ -284,8 +291,8 @@ BoundingBox.prototype.diagonalDistance = function (options = {}) {
  * console.log(bbox.getCenter()) // { lat: 48.567499999999995, lon: 16.2985 }
  */
 BoundingBox.prototype.getCenter = function () {
-  var dlat = this.maxlat - this.minlat
-  var dlon = this.wrapMaxLon() - this.minlon
+  const dlat = this.maxlat - this.minlat
+  const dlon = this.wrapMaxLon() - this.minlon
   let lon = this.minlon + dlon / 2
   if (lon < -180 || lon > 180) {
     lon = (lon + 180) % 360 - 180
@@ -362,10 +369,10 @@ BoundingBox.prototype.extend = function (other) {
     }
   }
 
-  let min1 = Math.min(this.minlon, other.minlon)
-  let min2 = Math.max(this.minlon, other.minlon)
-  let max1 = Math.max(this.wrapMaxLon(), other.wrapMaxLon())
-  let max2 = Math.min(this.wrapMaxLon(), other.wrapMaxLon())
+  const min1 = Math.min(this.minlon, other.minlon)
+  const min2 = Math.max(this.minlon, other.minlon)
+  const max1 = Math.max(this.wrapMaxLon(), other.wrapMaxLon())
+  const max2 = Math.min(this.wrapMaxLon(), other.wrapMaxLon())
 
   if (max1 - min1 < max2 - min2 + 360) {
     this.minlon = min1
@@ -407,21 +414,21 @@ BoundingBox.prototype.toGeoJSON = function () {
       type: 'Feature',
       properties: {},
       geometry: {
-        'type': 'MultiPolygon',
-        'coordinates': [
+        type: 'MultiPolygon',
+        coordinates: [
           [[
-            [ this.minlon, this.minlat ],
-            [ 180, this.minlat ],
-            [ 180, this.maxlat ],
-            [ this.minlon, this.maxlat ],
-            [ this.minlon, this.minlat ]
+            [this.minlon, this.minlat],
+            [180, this.minlat],
+            [180, this.maxlat],
+            [this.minlon, this.maxlat],
+            [this.minlon, this.minlat]
           ]],
           [[
-            [ -180, this.minlat ],
-            [ this.maxlon, this.minlat ],
-            [ this.maxlon, this.maxlat ],
-            [ -180, this.maxlat ],
-            [ -180, this.minlat ]
+            [-180, this.minlat],
+            [this.maxlon, this.minlat],
+            [this.maxlon, this.maxlat],
+            [-180, this.maxlat],
+            [-180, this.minlat]
           ]]
         ]
       }
@@ -432,13 +439,13 @@ BoundingBox.prototype.toGeoJSON = function () {
     type: 'Feature',
     properties: {},
     geometry: {
-      'type': 'Polygon',
-      'coordinates': [[
-        [ this.minlon, this.minlat ],
-        [ this.maxlon, this.minlat ],
-        [ this.maxlon, this.maxlat ],
-        [ this.minlon, this.maxlat ],
-        [ this.minlon, this.minlat ]
+      type: 'Polygon',
+      coordinates: [[
+        [this.minlon, this.minlat],
+        [this.maxlon, this.minlat],
+        [this.maxlon, this.maxlat],
+        [this.minlon, this.maxlat],
+        [this.minlon, this.minlat]
       ]]
     }
   }
@@ -451,7 +458,7 @@ BoundingBox.prototype.toGeoJSON = function () {
  */
 BoundingBox.prototype.toLeaflet = function (options = {}) {
   if (!('shiftWorld' in options)) {
-    options.shiftWorld = [ 0, 0 ]
+    options.shiftWorld = [0, 0]
   }
 
   return L.latLngBounds(
