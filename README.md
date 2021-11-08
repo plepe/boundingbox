@@ -19,7 +19,7 @@ Creates a bounding box object.
 
 Data can be one of the following:
 * Min/max coordinates: { minlat: 48.123, minlon: 16.23, maxlat: 49.012, maxlon: 16.367 }
-* Lat/lon coordinates: { lat: 48.5, lon: 16.5 }
+* Lat/lon coordinates: { lat: 48.5, lon: 16.5 } or { lat: 48.5, lng: 16.5 } or { latitude: 48.5, longitude: 16.5 }
 * A BoundingBox object to create a copy
 * A L.latLngBounds object (using Leaflet)
 * A L.latLng object (using Leaflet)

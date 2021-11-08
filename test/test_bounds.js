@@ -89,6 +89,11 @@ var bounds13 = new BoundingBox({
   maxlon: -169
 })
 
+var bounds14 = new BoundingBox({
+  latitude: 48.1,
+  longitude: 16.1
+})
+
 describe('BoundingBox', function() {
   it('create', function(done) {
     assert.deepEqual(
@@ -114,6 +119,11 @@ describe('BoundingBox', function() {
     assert.deepEqual(
       {"minlat":48.2,"minlon":16.2,"maxlat":48.2,"maxlon":16.2},
       bounds5
+    )
+
+    assert.deepEqual(
+      {"minlat":48.1,"minlon":16.1,"maxlat":48.1,"maxlon":16.1},
+      bounds14
     )
 
     bounds6 = new BoundingBox({
