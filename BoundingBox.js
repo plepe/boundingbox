@@ -79,33 +79,33 @@ function BoundingBox (bounds) {
   }
 
   if (bounds.lat) {
-    this.minlat = bounds.lat
-    this.maxlat = bounds.lat
+    this.minlat = +bounds.lat
+    this.maxlat = +bounds.lat
   }
 
   if (bounds.lon) {
-    this.minlon = bounds.lon
-    this.maxlon = bounds.lon
+    this.minlon = +bounds.lon
+    this.maxlon = +bounds.lon
   }
 
   if (bounds.latitude) {
-    this.minlat = bounds.latitude
-    this.maxlat = bounds.latitude
-    this.minlon = bounds.longitude
-    this.maxlon = bounds.longitude
+    this.minlat = +bounds.latitude
+    this.maxlat = +bounds.latitude
+    this.minlon = +bounds.longitude
+    this.maxlon = +bounds.longitude
   }
 
   if (Array.isArray(bounds)) {
-    this.minlat = bounds[0]
-    this.maxlat = bounds[0]
-    this.minlon = bounds[1]
-    this.maxlon = bounds[1]
+    this.minlat = +bounds[0]
+    this.maxlat = +bounds[0]
+    this.minlon = +bounds[1]
+    this.maxlon = +bounds[1]
   }
 
   // e.g. L.latLng object
   if (bounds.lng) {
-    this.minlon = bounds.lng
-    this.maxlon = bounds.lng
+    this.minlon = +bounds.lng
+    this.maxlon = +bounds.lng
   }
 
   const props = ['minlon', 'minlat', 'maxlon', 'maxlat']
