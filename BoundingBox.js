@@ -36,7 +36,7 @@ function BoundingBox (bounds) {
     }
   }
 
-  // GeoJSON detected
+  // GeoJSON Feature detected
   if (bounds.type === 'Feature') {
     let boxes
 
@@ -71,6 +71,23 @@ function BoundingBox (bounds) {
 
     this._wrap()
 
+    return
+  }
+  // GeoJSON FeatureCollection detected
+  else if (bounds.type === 'FeatureCollection') {
+    if (bounds.features.length === 0) {
+      return
+    }
+
+    const r = new BoundingBox(bounds.features[0])
+    for (let i = 1; i < bounds.features.length; i++) {
+      r.extend(bounds.features[i])
+    }
+
+    this.minlat = r.minlat
+    this.minlon = r.minlon
+    this.maxlat = r.maxlat
+    this.maxlon = r.maxlon
     return
   }
 
