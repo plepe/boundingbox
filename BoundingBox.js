@@ -177,15 +177,15 @@ BoundingBox.prototype.intersects = function (other) {
     return false
   }
 
-  if (other.wrapMaxLon() < this.wrapMinLon()) {
-    return false
+  if (this.wrapMaxLon() >= other.minlon && this.minlon <= other.wrapMaxLon()) {
+    return true
   }
 
-  if (other.wrapMinLon() > this.wrapMaxLon()) {
-    return false
+  if (this.maxlon >= other.wrapMinLon() && this.wrapMinLon() <= other.maxlon) {
+    return true
   }
 
-  return true
+  return false
 }
 
 /**
@@ -210,15 +210,15 @@ BoundingBox.prototype.within = function (other) {
     return false
   }
 
-  if (other.wrapMaxLon() < this.wrapMaxLon()) {
-    return false
+  if (this.wrapMinLon() >= other.wrapMinLon() && this.maxlon <= other.maxlon) {
+    return true
   }
 
-  if (other.wrapMinLon() > this.wrapMinLon()) {
-    return false
+  if (this.minlon >= other.minlon && this.wrapMaxLon() <= other.wrapMaxLon()) {
+    return true
   }
 
-  return true
+  return false
 }
 
 BoundingBox.prototype.toTile = function () {

@@ -94,6 +94,20 @@ var bounds14 = new BoundingBox({
   longitude: 16.1
 })
 
+var bounds15 = new BoundingBox({
+  minlat: 55,
+  minlon: 178,
+  maxlat: 60,
+  maxlon: 178.5
+})
+
+var bounds16 = new BoundingBox({
+  minlat: 55,
+  minlon: -178.5,
+  maxlat: 60,
+  maxlon: -178
+})
+
 describe('BoundingBox', function() {
   it('create', function(done) {
     assert.deepEqual(
@@ -300,6 +314,9 @@ describe('BoundingBox', function() {
     assert.equal(true, bounds11.intersects(bounds10))
     assert.equal(true, bounds10.intersects(bounds12))
     assert.equal(true, bounds12.intersects(bounds10))
+    assert.equal(false, bounds9.intersects(bounds15))
+    assert.equal(false, bounds9.intersects(bounds16))
+    assert.equal(false, bounds11.intersects(bounds15))
 
     done()
   })
@@ -326,6 +343,9 @@ describe('BoundingBox', function() {
     assert.equal(false, bounds11.within(bounds10))
     assert.equal(false, bounds10.within(bounds12))
     assert.equal(false, bounds12.within(bounds10))
+    assert.equal(true, bounds12.within(bounds13))
+    assert.equal(false, bounds15.within(bounds13))
+    assert.equal(true, bounds16.within(bounds13))
 
     done()
   })
