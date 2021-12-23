@@ -37,7 +37,7 @@ function BoundingBox (bounds) {
     }
   }
 
-  // GeoJSON detected
+  // GeoJSON Feature detected
   if (bounds.type === 'Feature') {
     let boxes
 
@@ -73,6 +73,23 @@ function BoundingBox (bounds) {
     this._wrap()
 
     return
+  } else
+  // GeoJSON FeatureCollection detected
+  if (bounds.type === 'FeatureCollection') {
+    if (bounds.features.length === 0) {
+      return
+    }
+
+    const r = new BoundingBox(bounds.features[0])
+    for (let i = 1; i < bounds.features.length; i++) {
+      r.extend(bounds.features[i])
+    }
+
+    this.minlat = r.minlat
+    this.minlon = r.minlon
+    this.maxlat = r.maxlat
+    this.maxlon = r.maxlon
+    return
   }
 
   if ('bounds' in bounds) {
@@ -80,33 +97,33 @@ function BoundingBox (bounds) {
   }
 
   if (bounds.lat) {
-    this.minlat = bounds.lat
-    this.maxlat = bounds.lat
+    this.minlat = +bounds.lat
+    this.maxlat = +bounds.lat
   }
 
   if (bounds.lon) {
-    this.minlon = bounds.lon
-    this.maxlon = bounds.lon
+    this.minlon = +bounds.lon
+    this.maxlon = +bounds.lon
   }
 
   if (bounds.latitude) {
-    this.minlat = bounds.latitude
-    this.maxlat = bounds.latitude
-    this.minlon = bounds.longitude
-    this.maxlon = bounds.longitude
+    this.minlat = +bounds.latitude
+    this.maxlat = +bounds.latitude
+    this.minlon = +bounds.longitude
+    this.maxlon = +bounds.longitude
   }
 
   if (Array.isArray(bounds)) {
-    this.minlat = bounds[0]
-    this.maxlat = bounds[0]
-    this.minlon = bounds[1]
-    this.maxlon = bounds[1]
+    this.minlat = +bounds[0]
+    this.maxlat = +bounds[0]
+    this.minlon = +bounds[1]
+    this.maxlon = +bounds[1]
   }
 
   // e.g. L.latLng object
   if (bounds.lng) {
-    this.minlon = bounds.lng
-    this.maxlon = bounds.lng
+    this.minlon = +bounds.lng
+    this.maxlon = +bounds.lng
   }
 
   const props = ['minlon', 'minlat', 'maxlon', 'maxlat']
@@ -161,15 +178,15 @@ BoundingBox.prototype.intersects = function (other) {
     return false
   }
 
-  if (other.wrapMaxLon() < this.wrapMinLon()) {
-    return false
+  if (this.wrapMaxLon() >= other.minlon && this.minlon <= other.wrapMaxLon()) {
+    return true
   }
 
-  if (other.wrapMinLon() > this.wrapMaxLon()) {
-    return false
+  if (this.maxlon >= other.wrapMinLon() && this.wrapMinLon() <= other.maxlon) {
+    return true
   }
 
-  return true
+  return false
 }
 
 /**
@@ -194,15 +211,15 @@ BoundingBox.prototype.within = function (other) {
     return false
   }
 
-  if (other.wrapMaxLon() < this.wrapMaxLon()) {
-    return false
+  if (this.wrapMinLon() >= other.wrapMinLon() && this.maxlon <= other.maxlon) {
+    return true
   }
 
-  if (other.wrapMinLon() > this.wrapMinLon()) {
-    return false
+  if (this.minlon >= other.minlon && this.wrapMaxLon() <= other.wrapMaxLon()) {
+    return true
   }
 
-  return true
+  return false
 }
 
 BoundingBox.prototype.toTile = function () {

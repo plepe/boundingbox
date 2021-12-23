@@ -1,7 +1,7 @@
 {
   "name": "boundingbox",
   "description": "Implements bounding boxes with usual functions like intersects. Can convert from/to Leaflet bounds and GeoJSON.",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "main": "BoundingBox.js",
   "directories": {
     "test": "test"
