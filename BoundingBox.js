@@ -72,9 +72,9 @@ function BoundingBox (bounds) {
     this._wrap()
 
     return
-  }
+  } else
   // GeoJSON FeatureCollection detected
-  else if (bounds.type === 'FeatureCollection') {
+  if (bounds.type === 'FeatureCollection') {
     if (bounds.features.length === 0) {
       return
     }
