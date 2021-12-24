@@ -20,8 +20,8 @@
   },
   "scripts": {
     "test": "mocha --bail",
-    "build-test": "browserify test/test_*.js --debug -o all_tests.js",
-    "watch-test": "watchify test/test_*.js --debug -o all_tests.js -v",
+    "build-test": "browserify test/test_*.js --debug -o dist/all_tests.js",
+    "watch-test": "watchify test/test_*.js --debug -o dist/all_tests.js -v",
     "build": "mkdir -p dist; browserify BoundingBox.js -o dist/boundingbox.js",
     "prepare": "npm run build",
     "preversion": "npm run test; npm run lint",
